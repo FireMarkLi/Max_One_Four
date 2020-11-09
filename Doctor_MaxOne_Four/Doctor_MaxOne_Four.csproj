@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wangxincheng\" />
+    <Compile Remove="wangxincheng\**" />
+    <Content Remove="wangxincheng\**" />
+    <EmbeddedResource Remove="wangxincheng\**" />
+    <None Remove="wangxincheng\**" />
   </ItemGroup>
 
 
