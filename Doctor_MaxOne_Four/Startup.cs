@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Doctor_MaxOne_Four
 {
+    //
     public class Startup
     {
         public Startup(IConfiguration configuration)
