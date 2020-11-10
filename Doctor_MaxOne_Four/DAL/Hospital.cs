@@ -14,7 +14,6 @@ namespace Doctor_MaxOne_Four.DAL
         public string HospitalName		 { get; set; }
         public int HospitalVip			 { get; set; }
         public string HospitalAbstract	 { get; set; }
-        public string HospitalDepartments	 { get; set; }
-        public int HospitalDoctor { get; set; }
+        public string HospitalAddressId { get; set; }
     }
 }

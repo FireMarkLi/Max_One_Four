@@ -11,8 +11,6 @@ namespace Doctor_MaxOne_Four.DAL
     public class DoctorReservation
     {
         public int Reservationid			 { get; set; }
-        public string ReservationDepartments	 { get; set; }
-        public string ReservationHospital		 { get; set; }
         public int ReservationName			 { get; set; }
         public string ReservationCottoms		 { get; set; }
         public string ReservationDescribe		 { get; set; }

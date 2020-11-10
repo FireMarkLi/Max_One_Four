@@ -13,7 +13,7 @@ namespace Doctor_MaxOne_Four.DAL
         public int DoctorId			 { get; set; }
         public string DoctorName			 { get; set; }
         public string DoctorEducation		 { get; set; }
-        public string DoctorDepartments	 { get; set; }
+        public int DoctorDepartments	 { get; set; }
         public string DoctorPosition		 { get; set; }
         public string DoctorHospital		 { get; set; }
         public string DoctorGood			 { get; set; }
@@ -22,5 +22,7 @@ namespace Doctor_MaxOne_Four.DAL
         public int DoctorMoney			 { get; set; }
         public string DoctorExperience	 { get; set; }
         public int DoctorNowMoney { get; set; }
+        public int DoctorAddress { get; set; }
+        public string DoctorImg { get; set; }
     }
 }

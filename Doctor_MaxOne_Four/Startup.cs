@@ -26,6 +26,11 @@ namespace Doctor_MaxOne_Four
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //跨域
+            services.AddCors(options =>
+              options.AddPolicy("cor",
+              p => p.AllowAnyOrigin())
+               );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +40,10 @@ namespace Doctor_MaxOne_Four
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //引用静态文件
+            app.UseStaticFiles();
+            //跨域
+            app.UseCors("cor");
             app.UseRouting();
 
             app.UseAuthorization();

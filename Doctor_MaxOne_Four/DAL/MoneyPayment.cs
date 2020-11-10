@@ -11,6 +11,7 @@ namespace Doctor_MaxOne_Four.DAL
     public class MoneyPayment
     {
         public int PaymentId			 { get; set; }
+        public int PaymentDoctorReservationId { get; set; }
         public string PaymentName			 { get; set; }
         public int PaymentDoctor		 { get; set; }
         public string PaymentTitle		 { get; set; }
