@@ -15,12 +15,11 @@ namespace Doctor_MaxOne_Four.DAL
         public string PatientPhone	 { get; set; }
         public DateTime PatientBirthday	 { get; set; }
         public int PatientSex		 { get; set; }
-        public int PatientCity		 { get; set; }
+        public int PatientRecommend { get; set; }
         public string PatientDisease	 { get; set; }
         public string PatientProcess	 { get; set; }
         public string PatientPmg		 { get; set; }
         public int PatientPurpose	 { get; set; }
-        public int PatientRecommend { get; set; }
-        public int PatientHospital { get; set; }
+        public int PatientDocoterNameId { get; set; }
     }
 }

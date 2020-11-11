@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Doctor_MaxOne_Four.DAL;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +23,14 @@ namespace Doctor_MaxOne_Four.Controllers
     {
         //DBHelper  注入IWebHostEnvironment注入
         IWebHostEnvironment iweb;
-        DBHelper db;
-        public DoctorController(DBHelper _db,IWebHostEnvironment _Iweb)
+        DBHelper db = new DBHelper();
+        public DoctorController(IWebHostEnvironment _Iweb)
         {
-            db = _db;
             iweb = _Iweb;
         }
         //注册
         [HttpPost]
-        [Route("login")]
+        [Route("Login")]
         public IActionResult ZhuCe(Users users)
         {
             SqlParameter[] sqlParameters = new SqlParameter[] {
@@ -45,7 +45,7 @@ namespace Doctor_MaxOne_Four.Controllers
         }
         //登录       
         [HttpPost]
-        [Route("register")]
+        [Route("Register")]
         public IActionResult Deng(Users ul)
         {
             string sql = $"select count(*) from Users where UsersName='{ul.UsersName}' and UsersPwd='{ul.UsersPwd}' and UsersState='{ul.UsersState}'";
@@ -56,18 +56,18 @@ namespace Doctor_MaxOne_Four.Controllers
         //患者个人添加资料    
         [HttpPost]
         [Route("PatientAddData")]
-        public IActionResult PatientAddData()
+        public IActionResult PatientAddData(Patient p)
         {
-            string sql = "";
+            string sql = $"insert into Patient values('{p.PatientName}',{p.PatientSex},{p.PatientAge},'{p.PatientBirthday}')";
             var dt = db.CMD(sql);
             return Ok(dt);
         }
         //患者修改添加资料    
         [HttpPost]
         [Route("PatientUpdateData")]
-        public IActionResult PatientUpdateData()
+        public IActionResult PatientUpdateData(Patient p)
         {
-            string sql = "";
+            string sql = $"update Patient set PatientName='{p.PatientName}',PatientSex='{p.PatientSex}',PatientAge='{p.PatientAge}',PatientBirthday='{p.PatientBirthday}' where PatientID={p.PatientID}";
             var dt = db.CMD(sql);
             return Ok(dt);
         }
@@ -80,16 +80,17 @@ namespace Doctor_MaxOne_Four.Controllers
             var dt = db.GetShow<Departments>(sql);
             return Ok(dt);
         }
-        //点击患者首页的科室进入医生显示页面
+        //点击患者首页的科室进入都有那些医院有这些科室
         [HttpGet]
         [Route("PatientShowHospital")]
         public IActionResult PatientShowHospital(int id)
         {
-            string sql = $"select * from Hospital join DepartmentsHospital on DepartmentsHospital.DepartmentsHospitalHospitalId=Hospital.HospitalDepartments join Departments on Departments.DepartmentsId=DepartmentsHospital.DepartmentsHospitalDepartmentsId where DepartmentsId={id}";
+            //id为科室id
+            string sql = $"select * from Departments join DepartmentsHospital on Departments.DepartmentsId=DepartmentsHospital.DepartmentsHospitalDepartmentsId join Hospital on Hospital.HospitalId=DepartmentsHospital.DepartmentsHospitalHospitalId join Address on Address.AddressId=Hospital.HospitalAddressId where DepartmentsId={id}   ";
             var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
-        //填写预约单 
+        //填写预约单   预约科室  无医生
         [HttpPost]
         [Route("DoctorReservation")]
         public async Task<IActionResult> DoctorReservation()
@@ -105,15 +106,31 @@ namespace Doctor_MaxOne_Four.Controllers
                     {
                         Directory.CreateDirectory(wwwroot);
                     }
+                    //保存到 wwwroot下面的img文件夹
                     var filePath = Path.Combine(wwwroot, item.FileName);
                     using (var stream = System.IO.File.Create(filePath))
                     {
                         DoctorReservation dr = new DoctorReservation();
                         dr.ReservationImg = "/img/" + item.FileName;
                         //填写预约单sql语句
-                        var sql = $"";
-
+                        string sql1 = $"select * from Hospital join DepartmentsHospital on DepartmentsHospital.DepartmentsHospitalHospitalId=Hospital.HospitalId join Departments on Departments.DepartmentsId=DepartmentsHospital.DepartmentsHospitalDepartmentsId where HospitalId='{Request.Form["ReservationHospitalid"]}' and DepartmentsId='{Request.Form["ReservationCottomsId"]}'";
+                        var list = db.GetShow<Hospital>(sql1);
+                        //查找所有该科室下的所有医生
+                        var num = list.Count;
+                        //随机数
+                        Random rd = new Random();
+                      int a= rd.Next(1,num);
+                        //添加预约单
+                        var sql = $"insert into DoctorReservation values('{Request.Form["ReservationNameId"]}','{Request.Form["ReservationHospitalid"]}','{Request.Form["ReservationCottomsId"]}','{Request.Form["ReservationDescribe"]}','{dr.ReservationImg}','{a}')";
                         var dt = db.CMD(sql);
+                        //查找这条预约单id
+                        string sql3 = "select top 1 ReservationId from  DoctorReservation where order by ReservationId desc";
+                        var DRid = db.GetShow(sql3);
+                        string josn = JsonConvert.SerializeObject(DRid);
+                        DoctorReservation Dr = JsonConvert.DeserializeObject<List<DoctorReservation>>(josn).FirstOrDefault();
+                        //写完预约单自动添加一条  支付内容    默认为 未支付  点击支付才会修改账户
+                        string sql2 = $"insert into MoneyPayment values('{"MP" + DateTime.Now.ToString("yyyyMMddhhmmss")}','{Dr.Reservationid}','{"该订单号为"+ Dr.Reservationid}','刚发现','1')";
+                        var list2 = db.CMD(sql2);
                         await item.CopyToAsync(stream);
                     }
                     var items = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
@@ -123,22 +140,38 @@ namespace Doctor_MaxOne_Four.Controllers
             }
             return Ok();
         }
-        //立即支付  患者
+        //立即支付  患者  医院
         [HttpPost]
         [Route("MoneyPayment")]
-        public IActionResult MoneyPayment()
+        public IActionResult MoneyPayment(int id)
         {
-            //添加一张支付表的内容
-            //对医生或者科室的账户进行修改
-            return Ok();
+            //id为支付单id  因为是点击订单 
+            string sql2 = $"select ReservationDoctorId from MoneyPayment join DoctorReservation on DoctorReservation.ReservationId=MoneyPayment.Reservationid where PaymentId={id} ";
+            var dt = db.GetShow(sql2);
+            //获取预约单的医生的id  进行对医生账户修改
+            string json = JsonConvert.SerializeObject(dt);
+            DoctorReservation list = JsonConvert.DeserializeObject<List<DoctorReservation>>(json).FirstOrDefault();
+            //对医生账户进行修改
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+10 where DoctorId={list}";
+            var dt2 = db.CMD(sql);
+            return Ok(dt2);
         }
-        //推荐医院
+        //推荐医院   查看推荐医院   并且可以根据地区进行查看
         [HttpGet]
         [Route("Recommend")]
         public IActionResult Recommend()
         {
             //根据患者信息的地区查看当前地区的医院
             string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress join Users on Users.UsersAdress=Address.AddressId";
+            var dt = db.GetShow(sql);
+            return Ok(dt);
+        }
+        //下拉框   地区表
+        [HttpGet]
+        [Route("XLKRegion")]
+        public IActionResult XLKRegion(int id)
+        {
+            string sql = $"select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress where HospitalAddressId={id}";
             var dt = db.GetShow(sql);
             return Ok(dt);
         }
@@ -164,9 +197,24 @@ namespace Doctor_MaxOne_Four.Controllers
                         DoctorReservation dr = new DoctorReservation();
                         dr.ReservationImg = "/img/" + item.FileName;
                         //填写预约单sql语句
-                        var sql = $"";
-
+                        string sql1 = $"select * from Hospital join DepartmentsHospital on DepartmentsHospital.DepartmentsHospitalHospitalId=Hospital.HospitalId join Departments on Departments.DepartmentsId=DepartmentsHospital.DepartmentsHospitalDepartmentsId where HospitalId='{Request.Form["ReservationHospitalid"]}' and DepartmentsId='{Request.Form["ReservationCottomsId"]}'";
+                        var list = db.GetShow<Hospital>(sql1);
+                        //查找所有该科室下的所有医生
+                        var num = list.Count;
+                        //随机数
+                        Random rd = new Random();
+                        int a = rd.Next(1, num);
+                        //添加预约单
+                        var sql = $"insert into DoctorReservation values('{Request.Form["ReservationNameId"]}','{Request.Form["ReservationHospitalid"]}','{Request.Form["ReservationCottomsId"]}','{Request.Form["ReservationDescribe"]}','{dr.ReservationImg}','{a}')";
                         var dt = db.CMD(sql);
+                        //查找这条预约单id
+                        string sql3 = "select top 1 ReservationId from  DoctorReservation where order by ReservationId desc";
+                        var DRid = db.GetShow(sql3);
+                        string josn = JsonConvert.SerializeObject(DRid);
+                        DoctorReservation Dr = JsonConvert.DeserializeObject<List<DoctorReservation>>(josn).FirstOrDefault();
+                        //写完预约单自动添加一条  支付内容    默认为 未支付  点击支付才会修改账户
+                        string sql2 = $"insert into MoneyPayment values('{"MP" + DateTime.Now.ToString("yyyyMMddhhmmss")}','{Dr.Reservationid}','{"该订单号为" + Dr.Reservationid}','刚发现','1')";
+                        var list2 = db.CMD(sql2);
                         await item.CopyToAsync(stream);
                     }
                     var items = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
@@ -176,27 +224,35 @@ namespace Doctor_MaxOne_Four.Controllers
             }
             return Ok();
         }
+        //根据赵名医   直接预约医生 
         //支付  推荐医院预约科室
         [HttpPost]
         [Route("RecommendMoneyPayment")]
-        public IActionResult MoneyPayment2()
+        public IActionResult MoneyPayment2(int id)
         {
-            //添加一张支付表的内容
-            //对医生或者科室的账户进行修改
-            return Ok();
+            //id为支付单id  因为是点击订单 
+            string sql2 = $"select ReservationDoctorId from MoneyPayment join DoctorReservation on DoctorReservation.ReservationId=MoneyPayment.Reservationid where PaymentId={id} ";
+            var dt = db.GetShow(sql2);
+            //获取预约单的医生的id  进行对医生账户修改
+            string json = JsonConvert.SerializeObject(dt);
+            DoctorReservation list = JsonConvert.DeserializeObject<List<DoctorReservation>>(json).FirstOrDefault();
+            //对医生账户进行修改
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+10 where DoctorId={list}";
+            var dt2 = db.CMD(sql);
+            return Ok(dt2);
         }
         //患者的   全部订单
         [HttpGet]
         [Route("PatientIndent")]
         public IActionResult ShowAllDingDan(int id)
         {
-            //根据患者的登录获取id  查看关于患者的所有订单  一般一个
+            //根据患者的登录获取id  查看关于患者的所有订单  
             //患者id=id
             string sql = $"select * from DoctorReservation where ReservationName={id}";
-            var dt = db.GetShow(sql);
-            return Ok();
+            var dt = db.GetShow<DoctorReservation>(sql);
+            return Ok(dt);
         }
-        //查看订单详情
+        //查看订单详情  患者查看
         [HttpGet]
         [Route("IndentParticulars")]
         //id 订单id
@@ -212,6 +268,7 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("IndentState")]
         public IActionResult IndentState(int stateid,int usersid)
         {
+            //状态id    患者id
             string sql = $"select * from DoctorReservation d join MoneyPayment m on m.PaymentDoctorReservationId=d.Reservationid where ReservationName={usersid} and PaymentState={stateid}";
             var dt = db.GetShow(sql);
             return Ok(dt);
@@ -219,8 +276,26 @@ namespace Doctor_MaxOne_Four.Controllers
         //创建按钮点击后的一系列添加
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var file = Request.Form.Files;
+            foreach (var item in file)
+            {
+                if (item.Length > 0)
+                {
+                    var wwwroot = iweb.WebRootPath + "/wwwroot/img/";
+                    var filename = Path.Combine(wwwroot, item.FileName);
+                    using (var straem = System.IO.File.Create(filename))
+                    {
+                        CreatePatient cp = new CreatePatient();
+                        cp.PatientPmg = "/img/" + item.FileName;
+                        string sql = $"insert into CreatePatient values('{Request.Form["PatientName"]}','{Request.Form["PatientPhone"]}','{Request.Form["PatientBirthday"]}','{Request.Form["PatientSex"]}','{Request.Form["PatientDisease"]}','{Request.Form["PatientProcess"]}','{cp.PatientPmg}','{Request.Form["PatientPurpose"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientDocoterNameId"]}')";
+                        await item.CopyToAsync(straem);
+
+                    }
+                }
+                
+            }
             return Ok();
         }
         //疾病显示
@@ -257,18 +332,37 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("MoneyCreate")]
         public IActionResult MoneyCreate()
         {
-            //吧订单信息添加到支付表上
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+300 where DoctorId=PatientDocoterNameId";
             //修改双方的金额
-            return Ok();
+            var dt = db.CMD(sql);
+            return Ok(dt);
         }
         //修改医生的个人信息
         [HttpGet]
         [Route("ShowOneDoctor")]
         public IActionResult ShowOneDoctor(int id)
         {
-            //id为医生的id
-            string sql = $"";
+            //id为医生的id  这是登陆后的  
+            string sql = $"update DoctorInfo set DoctorName='{Request.Form["DoctorName"]}',DoctorPosition='{Request.Form["DoctorPosition"]}',DoctorHospitalId='{Request.Form["DoctorHospitalId"]}',DoctorDepartmentsId='{Request.Form["DoctorDepartmentsId"]}' where DoctorId='{id}' ";
             var dt = db.GetShow(sql);
+            return Ok(dt);
+        }
+        //下拉框  医院
+        [HttpGet]
+        [Route("XLKHospital")]
+        public IActionResult XLKHospital()
+        {
+            string sql = $"select * from Hospital";
+            var dt = db.GetShow<Hospital>(sql);
+            return Ok(dt);
+        }
+        //下拉框  科室
+        [HttpGet]
+        [Route("XLKDepartments")]
+        public IActionResult XLKDepartments()
+        {
+            string sql = $"select * from Departments where DepartmentsId=0";
+            var dt = db.GetShow<Departments>(sql);
             return Ok(dt);
         }
         //创建问卷调查表--给医生的
@@ -276,8 +370,8 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("ExamSay")]
         public IActionResult ExamSay()
         {
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = "select * from ExamSay";
+            var dt = db.GetShow<ExamSay>(sql);
             //分数有ajax实现给值  这里不做传值   
             return Ok(dt);
         }
@@ -286,8 +380,8 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("Surgery")]
         public IActionResult Surgery()
         {
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = "select * from Surgery";
+            var dt = db.GetShow<Surgery>(sql);
             return Ok(dt);
         }
         //就医故事  纯显示
@@ -295,8 +389,8 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("DoctorStory")]
         public IActionResult DoctorStory()
         {
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = "select * from DoctorStory";
+            var dt = db.GetShow<DoctorStory>(sql);
             return Ok(dt);
         }
         //医生查看都有那些患者给自己订单
@@ -305,7 +399,7 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult SHowALLHuanZhe(int id)
         {
             //id为医生的id   登陆后就是医生  这是医生端的  所以获取就好了
-            string sql = $"";
+            string sql = $"select * from DoctorReservation where ReservationDoctorId={id}";
             var dt = db.GetShow(sql);
             return Ok(dt);
         }
@@ -314,8 +408,8 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("Story")]
         public IActionResult Story()
         {
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = "select * from Story";
+            var dt = db.GetShow<Story>(sql);
             return Ok(dt);
         }
         //个人中心   我的账户
@@ -324,8 +418,8 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult MyMoney(int id)
         {
             //id 为医生的id  
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = $"select * from DoctorInfo where DoctorId={id}";
+            var dt = db.GetShow<DoctorInfo>(sql);
             return Ok(dt);
         }
         //客服 常见问题以及答案  只显示问题
@@ -333,25 +427,27 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("AllWhy")]
         public IActionResult AllWhy()
         {
-            string sql = "";
+            string sql = "select QuestionAnswerTitle from QuestionAnswer";
             var dt = db.GetShow(sql);
             return Ok(dt);
         }
         //客服问题答案
         [HttpGet]
         [Route("Answer")]
-        public IActionResult Answer()
+        public IActionResult Answer(int id)
         {
-            string sql = "";
+            //id为问题标题id
+            string sql = $"select * from QuestionAnswer where QuestionAnswerId='{id}'";
             var dt = db.GetShow(sql);
             return Ok(dt);
         }
         //点击签约专家去外地会诊信息 点击签约自动添加信息
         [HttpPost]
         [Route("Province")]
-        public IActionResult Province()
+        public IActionResult Province(int id)
         {
-            string sql = "";
+            //id为登陆的医生id    其余的都是默认的  只有医生id市需要写的
+            string sql = $"insert into Province(ProvinceDoctorId) values('{id}')";
             var dt = db.CMD(sql);
             return Ok(dt);
         }
@@ -360,8 +456,7 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("UpdateProvince")]
         public IActionResult UpdateProvince(int id)
         {
-            //id为医生id
-            string sql = "";
+            string sql = $"update Province set ProvinceNum='{Request.Form["ProvinceNum"]}',ProvinceTime='{Request.Form["ProvinceTime"]}',ProvinceDatetime='{Request.Form["ProvinceDatetime"]}',ProvinceCottoms='{Request.Form["ProvinceCottoms"]}',ProvinceMoney='{Request.Form["ProvinceMoney"]}',ProvinceDistrict='{Request.Form["ProvinceDistrict"]}',ProvinceRequire='{Request.Form["ProvinceRequire"]}' where ProvinceDoctorId='{id}'";
             var dt = db.CMD(sql);
             return Ok(dt);
         }
@@ -371,8 +466,9 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult NoDispose(int id)
         {
             //id为医生id   查找未处理的
-            string sql = "";
-            var dt = db.GetShow(sql);
+            string sql = $"select * from DoctorReservation join MoneyPayment on MoneyPayment.Reservationid=DoctorReservation.ReservationId where ReservationDoctorId='{id}' and PaymentState=1";
+            
+            var dt = db.GetShow<DoctorReservation>(sql);
             return Ok(dt);
         }
         //预约未处理  点击接收拒绝
@@ -381,18 +477,9 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult YseNoDispose()
         {
             //当点击同意 医生  状态修改  账户修改 
-            string sql = "";
-            //点击拒绝   客户 账户修改   
+            string sql = "update DoctorInfo set DoctorNowMoney=DoctorNowMoney+10,PaymentState=2 where DoctorId=PatientDocoterNameId "; 
             var dt = db.CMD(sql);
             return Ok(dt);
-        }
-        //找回密码   
-        [HttpPost]
-        [Route("RetrievePassword")]
-        public IActionResult RetrievePassword()
-        {
-            //  手机号等   麻烦一下   延申内容
-            return Ok();
         }
 
     }

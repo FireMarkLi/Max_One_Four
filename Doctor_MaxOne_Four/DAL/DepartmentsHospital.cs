@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Doctor_MaxOne_Four.DAL
 {
+    /// <summary>
+    /// 医院科室配置
+    /// </summary>
     public class DepartmentsHospital
     {
         public int DepartmentsHospitalId			 { get; set; }

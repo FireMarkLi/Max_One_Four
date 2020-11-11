@@ -11,6 +11,7 @@ namespace Doctor_MaxOne_Four.DAL
     public class Patient
     {
         public int PatientID		 { get; set; }
+        public int PatientUsers { get; set; }
         public string PatientName		 { get; set; }
         public int PatientSex		 { get; set; }
         public int PatientAge		 { get; set; }

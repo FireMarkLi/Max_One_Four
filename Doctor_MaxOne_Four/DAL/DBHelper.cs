@@ -13,8 +13,8 @@ namespace Doctor_MaxOne_Four.DAL
     /// </summary>
     public class DBHelper
     {
-        string str = "";
-        //显示  返回datatable类型
+        string str = "Data Source=192.168.3.48;Initial Catalog=DoctorPatient_FourTeam;Persist Security Info=True;User ID=sa;pwd=321232";
+        
         /// <summary>
         /// 显示，返回datatable类型，需要转化为List类型
         /// </summary>
