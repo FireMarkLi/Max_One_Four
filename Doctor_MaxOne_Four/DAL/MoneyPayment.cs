@@ -18,5 +18,13 @@ namespace Doctor_MaxOne_Four.DAL
         public string PaymentParticulars	 { get; set; }
         public int PaymentState		 { get; set; }
         public int PaymentPeople { get; set; }
+
+
+        public int Reservationid { get; set; }
+        public int ReservationName { get; set; }
+        public string ReservationCottoms { get; set; }
+        public string ReservationDescribe { get; set; }
+        public string ReservationImg { get; set; }
+        public int ReservationDoctor { get; set; }
     }
 }

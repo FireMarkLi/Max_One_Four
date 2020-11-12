@@ -163,7 +163,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //根据患者信息的地区查看当前地区的医院
             string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress join Users on Users.UsersAdress=Address.AddressId";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
         //下拉框   地区表
@@ -172,7 +172,7 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult XLKRegion(int id)
         {
             string sql = $"select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress where HospitalAddressId={id}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
         //根据你推荐预约医院点进去后进行预约科室
@@ -260,7 +260,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //用户id   订单id
             string sql = $"select * from DoctorReservation where ReservationName={Usersid} and Reservationid={DingDanid}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<DoctorReservation>(sql);
             return Ok(dt);
         }
         //根据订单状态显示不同的订单
@@ -270,7 +270,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //状态id    患者id
             string sql = $"select * from DoctorReservation d join MoneyPayment m on m.PaymentDoctorReservationId=d.Reservationid where ReservationName={usersid} and PaymentState={stateid}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<DoctorReservation>(sql);
             return Ok(dt);
         }
         //创建按钮点击后的一系列添加
@@ -290,6 +290,7 @@ namespace Doctor_MaxOne_Four.Controllers
                         CreatePatient cp = new CreatePatient();
                         cp.PatientPmg = "/img/" + item.FileName;
                         string sql = $"insert into CreatePatient values('{Request.Form["PatientName"]}','{Request.Form["PatientPhone"]}','{Request.Form["PatientBirthday"]}','{Request.Form["PatientSex"]}','{Request.Form["PatientDisease"]}','{Request.Form["PatientProcess"]}','{cp.PatientPmg}','{Request.Form["PatientPurpose"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientDocoterNameId"]}')";
+                        var dt = db.CMD(sql);
                         await item.CopyToAsync(straem);
 
                     }
@@ -304,7 +305,7 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult ShowAllDisease()
         {
             string sql = $"select * from Disease where DiseaseFatherId=0 ";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<Disease>(sql);
             return Ok(dt);
         }
         //选择父级节点下面的具体疾病
@@ -314,7 +315,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为父级id
             string sql = $"select * from Disease where DiseaseFatherId={id}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<Disease>(sql);
             return Ok(dt);
         }
         //查看医生信息
@@ -324,7 +325,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为医生的id
             string sql = $"select * from DoctorInfo where DoctorId={id}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<DoctorInfo>(sql);
             return Ok(dt);
         }
         //支付
@@ -344,7 +345,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为医生的id  这是登陆后的  
             string sql = $"update DoctorInfo set DoctorName='{Request.Form["DoctorName"]}',DoctorPosition='{Request.Form["DoctorPosition"]}',DoctorHospitalId='{Request.Form["DoctorHospitalId"]}',DoctorDepartmentsId='{Request.Form["DoctorDepartmentsId"]}' where DoctorId='{id}' ";
-            var dt = db.GetShow(sql);
+            var dt = db.CMD(sql);
             return Ok(dt);
         }
         //下拉框  医院
@@ -400,7 +401,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为医生的id   登陆后就是医生  这是医生端的  所以获取就好了
             string sql = $"select * from DoctorReservation where ReservationDoctorId={id}";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<DoctorReservation>(sql);
             return Ok(dt);
         }
         //医生首页的发现主题
@@ -428,7 +429,7 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult AllWhy()
         {
             string sql = "select QuestionAnswerTitle from QuestionAnswer";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<QuestionAnswer>(sql);
             return Ok(dt);
         }
         //客服问题答案
@@ -438,7 +439,7 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为问题标题id
             string sql = $"select * from QuestionAnswer where QuestionAnswerId='{id}'";
-            var dt = db.GetShow(sql);
+            var dt = db.GetShow<QuestionAnswer>(sql);
             return Ok(dt);
         }
         //点击签约专家去外地会诊信息 点击签约自动添加信息
