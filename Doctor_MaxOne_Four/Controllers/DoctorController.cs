@@ -152,7 +152,7 @@ namespace Doctor_MaxOne_Four.Controllers
             string json = JsonConvert.SerializeObject(dt);
             DoctorReservation list = JsonConvert.DeserializeObject<List<DoctorReservation>>(json).FirstOrDefault();
             //对医生账户进行修改
-            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+10 where DoctorId={list}";
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+DoctorMoney where DoctorId={list}";
             var dt2 = db.CMD(sql);
             return Ok(dt2);
         }
@@ -224,7 +224,7 @@ namespace Doctor_MaxOne_Four.Controllers
             }
             return Ok();
         }
-        //根据赵名医   直接预约医生 
+       
         //支付  推荐医院预约科室
         [HttpPost]
         [Route("RecommendMoneyPayment")]
@@ -237,7 +237,81 @@ namespace Doctor_MaxOne_Four.Controllers
             string json = JsonConvert.SerializeObject(dt);
             DoctorReservation list = JsonConvert.DeserializeObject<List<DoctorReservation>>(json).FirstOrDefault();
             //对医生账户进行修改
-            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+10 where DoctorId={list}";
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+DoctorMoney where DoctorId={list}";
+            var dt2 = db.CMD(sql);
+            return Ok(dt2);
+        }
+        //根据找名医   分页显示医生  一页3个医生   直接预约医生
+        //这个 找名医  页面可以用  layui实现
+        [HttpGet]
+        [Route("CHIUDoctor")]
+        public IActionResult CHIUDoctor(int page = 1, int limit = 3)
+        {
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add("@pageindex", page);
+            dic.Add("@pagesize", limit);
+            dic.Add("@pagecount", 0);
+            var dt = db.Proc("P_Doctor", dic, "@pagecount", out object id);
+            var list = dt.Tables[1];
+            string json = JsonConvert.SerializeObject(list);
+            List<DoctorInfo> caigou = JsonConvert.DeserializeObject<List<DoctorInfo>>(json);
+            return Ok(new { code = 0, msg = "ok", count = id, data = caigou });
+        }
+        //填写根据找名医  填写预约单
+        [HttpGet]
+        [Route("DoctorDoctorReservation")]
+        public async Task<IActionResult> DoctorDoctorReservation()
+        {
+            var file = Request.Form.Files;
+            foreach (var item in file)
+            {
+                if (item.Length > 0)
+                {
+                    string wwwroot = iweb.ContentRootPath + "/wwwroot/img/";
+                    //文件夹
+                    if (!Directory.Exists(wwwroot))
+                    {
+                        Directory.CreateDirectory(wwwroot);
+                    }
+                    var filePath = Path.Combine(wwwroot, item.FileName);
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        DoctorReservation dr = new DoctorReservation();
+                        dr.ReservationImg = "/img/" + item.FileName;
+                       
+                        //添加预约单
+                        var sql = $"insert into DoctorReservation values('{Request.Form["ReservationNameId"]}','{Request.Form["ReservationHospitalid"]}','{Request.Form["ReservationCottomsId"]}','{Request.Form["ReservationDescribe"]}','{dr.ReservationImg}','{Request.Form["ReservationDoctorId"]}')";
+                        var dt = db.CMD(sql);
+                        //查找这条预约单id
+                        string sql3 = "select top 1 ReservationId from  DoctorReservation where order by ReservationId desc";
+                        var DRid = db.GetShow(sql3);
+                        string josn = JsonConvert.SerializeObject(DRid);
+                        DoctorReservation Dr = JsonConvert.DeserializeObject<List<DoctorReservation>>(josn).FirstOrDefault();
+                        //写完预约单自动添加一条  支付内容    默认为 未支付  点击支付才会修改账户
+                        string sql2 = $"insert into MoneyPayment values('{"MP" + DateTime.Now.ToString("yyyyMMddhhmmss")}','{Dr.Reservationid}','{"该订单号为" + Dr.Reservationid}','刚发现','1')";
+                        var list2 = db.CMD(sql2);
+                        await item.CopyToAsync(stream);
+                    }
+                    var items = Request.Form.ToDictionary(x => x.Key, x => x.Value.ToString());
+
+
+                }
+            }
+            return Ok();
+        }
+        //支付   根据找名医  修改医生账户
+        [HttpPost]
+        [Route("UpdateDoctorMoney")]
+        public IActionResult UpdateDoctorMoney(int id)
+        {
+            //id为支付单id  因为是点击订单 
+            string sql2 = $"select ReservationDoctorId from MoneyPayment join DoctorReservation on DoctorReservation.ReservationId=MoneyPayment.Reservationid where PaymentId={id} ";
+            var dt = db.GetShow(sql2);
+            //获取预约单的医生的id  进行对医生账户修改
+            string json = JsonConvert.SerializeObject(dt);
+            DoctorReservation list = JsonConvert.DeserializeObject<List<DoctorReservation>>(json).FirstOrDefault();
+            //对医生账户进行修改
+            string sql = $"update DoctorInfo set DoctorNowMoney=DoctorNowMoney+DoctorMoney where DoctorId={list}";
             var dt2 = db.CMD(sql);
             return Ok(dt2);
         }

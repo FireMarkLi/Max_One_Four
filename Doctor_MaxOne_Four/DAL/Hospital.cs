@@ -23,7 +23,7 @@ namespace Doctor_MaxOne_Four.DAL
 
 
         public int DepartmentsHospitalId { get; set; }
-        public string DepartmentsHospitalDepartmentsId { get; set; }
+        public string DepartmentsHospitalDepartmentsId { get; set; }                
         public int DepartmentsHospitalHospitalId { get; set; }
 
 
