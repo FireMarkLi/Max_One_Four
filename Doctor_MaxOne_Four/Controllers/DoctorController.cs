@@ -99,7 +99,7 @@ namespace Doctor_MaxOne_Four.Controllers
             foreach (var item in file)
             {
                 if (item.Length > 0)
-                {
+                {                                                                                           
                     string wwwroot = iweb.ContentRootPath + "/wwwroot/img/";
                     //文件夹
                     if (!Directory.Exists(wwwroot))
