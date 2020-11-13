@@ -12,6 +12,7 @@ namespace Doctor_MaxOne_Four.DAL
     {
         public int StoryId		 { get; set; }
         public string StoryImg	 { get; set; }
+        public string StoryTitle { get; set; }
         public string StoryContent { get; set; }
     }
 }

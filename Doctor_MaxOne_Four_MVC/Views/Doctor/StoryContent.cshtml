@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StoryContent</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div id="div">
+        <input id="Hidden1" type="hidden" value="@ViewBag.StoryContentid"/>
+    </div>
+</body>
+</html>
+<script>
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/StoryContent?id="+$("#Hidden1").val(),
+            type: "get",
+            async: false,
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+              +"          <h1>"+this.storyTitle+"</h1 >           "
+              +"      <br />                          "
+                        + "      <img src='http://localhost:52083" + this.storyImg +"' style='width:300px;height:400px;' />                        "
+              +"      <br />                          "
+              +"      <div>                           "
+              +"          <p>"+this.storyContent+"</p>                        "
+              +"        </div>                        "
+              +"")
+                })
+            }
+        })
+    }
+</script>

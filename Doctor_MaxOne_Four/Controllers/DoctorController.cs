@@ -162,16 +162,25 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult Recommend()
         {
             //根据患者信息的地区查看当前地区的医院
-            string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress join Users on Users.UsersAdress=Address.AddressId";
+            string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress join Users on Users.UsersAdressId=Address.AddressId";
             var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
-        //下拉框   地区表
+        //绑定下拉框
+        [HttpGet]
+        [Route("XLKAddress")]
+        public IActionResult XLKAddress()
+        {
+            string slq = "select * from Address";
+            var dt = db.GetShow<Address>(slq);
+            return Ok(dt);
+        }
+        //下拉框   地区表   根据下拉框查询
         [HttpGet]
         [Route("XLKRegion")]
         public IActionResult XLKRegion(int id)
         {
-            string sql = $"select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress where HospitalAddressId={id}";
+            string sql = $"select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddressId where HospitalAddressId={id}";
             var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
@@ -484,6 +493,15 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult Story()
         {
             string sql = "select * from Story";
+            var dt = db.GetShow<Story>(sql);
+            return Ok(dt);
+        }
+        [HttpGet]
+        [Route("StoryContent")]
+        //医生首页具体的发现主题的文章
+        public IActionResult StoryContent(int id)
+        {
+            string sql = $"select * from Story where StoryId='{id}'";
             var dt = db.GetShow<Story>(sql);
             return Ok(dt);
         }
