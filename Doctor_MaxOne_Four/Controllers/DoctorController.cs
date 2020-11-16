@@ -50,8 +50,10 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             string sql = $"select count(*) from Users where UsersName='{ul.UsersName}' and UsersPwd='{ul.UsersPwd}' and UsersState='{ul.UsersState}'";
             var dt = (int)db.Deng(sql);
+            string sql2 = $"select UsersId from Users where UsersName='{ul.UsersName}' and UsersPwd='{ul.UsersPwd}' and UsersState='{ul.UsersState}'";
             //根据你登陆不同的状态登录进去不同的页面   患者 病人  管理员
-            return Ok(dt);
+            var dt2 = db.GetShow<Users>(sql2);
+            return Ok(new {id=dt,usersxinxi=dt2 });
         }
         //患者个人添加资料    
         [HttpPost]
@@ -162,11 +164,11 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult Recommend()
         {
             //根据患者信息的地区查看当前地区的医院
-            string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddress join Users on Users.UsersAdressId=Address.AddressId";
+            string sql = "select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddressId join Users on Users.UsersAdress=Address.AddressId";
             var dt = db.GetShow<Hospital>(sql);
             return Ok(dt);
         }
-        //绑定下拉框
+        //绑定下拉框  地区;
         [HttpGet]
         [Route("XLKAddress")]
         public IActionResult XLKAddress()
@@ -175,13 +177,22 @@ namespace Doctor_MaxOne_Four.Controllers
             var dt = db.GetShow<Address>(slq);
             return Ok(dt);
         }
-        //下拉框   地区表   根据下拉框查询
+        //下拉框   地区表   根据下拉框查询医院
         [HttpGet]
         [Route("XLKRegion")]
         public IActionResult XLKRegion(int id)
         {
             string sql = $"select * from Hospital join Address on Address.AddressId=Hospital.HospitalAddressId where HospitalAddressId={id}";
             var dt = db.GetShow<Hospital>(sql);
+            return Ok(dt);
+        }
+        //根据地区下拉框  查询医生
+        [HttpGet]
+        [Route("XLKLookDoctor")]
+        public IActionResult XLKLookDoctor(int id)
+        {
+            string sql = $"select * from DoctorInfo join Users on Users.UsersId=DoctorInfo.UserDoctorInfo join Address on Address.AddressId=Users.UsersId join  Departments on Departments.DepartmentsId=DoctorInfo.DoctorDepartmentsId  join Hospital on Hospital.HospitalId=DoctorInfo.DoctorHospitalId where AddressId='{id}' ";
+            var dt = db.GetShow<DoctorInfo>(sql);
             return Ok(dt);
         }
         //根据你推荐预约医院点进去后进行预约科室
@@ -397,7 +408,8 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult FatherInDisease(int id)
         {
             //id为父级id
-            string sql = $"select * from Disease where DiseaseFatherId={id}";
+            //select * from Disease where DiseaseFatherId={id}
+            string sql = $"select * from Disease d join Departments de on d.DiseaseFatherId=de.DepartmentsFather where de.DepartmentsId='{id}'";
             var dt = db.GetShow<Disease>(sql);
             return Ok(dt);
         }

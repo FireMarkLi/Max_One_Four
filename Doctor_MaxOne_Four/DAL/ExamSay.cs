@@ -14,5 +14,6 @@ namespace Doctor_MaxOne_Four.DAL
         public string ExamName	 { get; set; }
         public string ExamAnswer	 { get; set; }
         public int ExamNum { get; set; }
+        public string RealAnswer { get; set; }
     }
 }

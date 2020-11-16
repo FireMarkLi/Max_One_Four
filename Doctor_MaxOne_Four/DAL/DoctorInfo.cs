@@ -25,5 +25,26 @@ namespace Doctor_MaxOne_Four.DAL
         public int DoctorNowMoney { get; set; }
         public string DoctorPicture { get; set; }
         public int UserDoctorInfo { get; set; }
+
+        //医院
+        public int HospitalId { get; set; }
+        public string HospitalName { get; set; }
+        public string HospitalVip { get; set; }
+        public string HospitalAbstract { get; set; }
+        public int HospitalAddressId { get; set; }
+        //科室
+        public int DepartmentsId { get; set; }
+        public string Departmentsname { get; set; }
+        public int DepartmentsFather { get; set; }
+        //用户
+        public int UsersId { get; set; }
+        public string UsersName { get; set; }
+        public string UsersPwd { get; set; }
+        public int UsersState { get; set; }
+        public int UsersAdress { get; set; }
+        public int UsersExam { get; set; }
+        //地区
+        public int AddressId { get; set; }
+        public string AddressName { get; set; }
     }
 }

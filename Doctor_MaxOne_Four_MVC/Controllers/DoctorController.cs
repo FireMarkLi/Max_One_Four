@@ -8,9 +8,16 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
 {
     public class DoctorController : Controller
     {
-        //医生端首页
-        public IActionResult Index()
+        //登录页面
+        public IActionResult Login()
         {
+            return View();
+        }
+
+        //医生端首页
+        public IActionResult Index(int id)
+        {
+            ViewBag.DoctorUsersId = id;
             return View();
         }
         //医生端的发现页面
@@ -24,13 +31,23 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
             ViewBag.StoryContentid = id;
             return View();
         }
-        //点击加入名医公益页面  纯显示
+        //点击加入名医公益页面  
         public IActionResult DoctorPublicBenefit()
         {
             return View();
         }
-        //医生端了解名医主刀  纯显示
+        //医生端了解名医主刀  
         public IActionResult KnowDoctorPatient()
+        {
+            return View();
+        }
+        //点击医生端 查看名医签约专家
+        public IActionResult LookDoctor()
+        {
+            return View();
+        }
+        //点击医生端创建按钮   
+        public IActionResult CreateMessage()
         {
             return View();
         }
