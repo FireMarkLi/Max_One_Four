@@ -74,10 +74,20 @@
                 success: function (h) {
                     if (h.id > 0) {
                         alert("登录成功");
-
-                        
+                        if (h.usersxinxi = 1) {
+                            //跳用户界面
+                        }
+                        if (h.usersxinxi = 2) {
+                            //跳医生界面
                             location.href = '/Doctor/Index?id=' + h.usersxinxi;
-                        
+                        }
+                        if (h.usersxinxi = 3) {
+                            //跳管理员界面
+                        }
+                    }
+                    else {
+                        alert("登陆失败！");
+                        location.href = "/Doctor/Login";
                     }
                 }
             })

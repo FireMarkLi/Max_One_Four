@@ -48,12 +48,19 @@ namespace Doctor_MaxOne_Four.Controllers
         [Route("Register")]
         public IActionResult Deng(Users ul)
         {
+            var num = -1;
             string sql = $"select count(*) from Users where UsersName='{ul.UsersName}' and UsersPwd='{ul.UsersPwd}' and UsersState='{ul.UsersState}'";
             var dt = (int)db.Deng(sql);
             string sql2 = $"select UsersId from Users where UsersName='{ul.UsersName}' and UsersPwd='{ul.UsersPwd}' and UsersState='{ul.UsersState}'";
             //根据你登陆不同的状态登录进去不同的页面   患者 病人  管理员
-            var dt2 = db.GetShow<Users>(sql2);
-            return Ok(new {id=dt,usersxinxi=dt2 });
+            var dt2 = db.GetShow(sql2);
+            string json = JsonConvert.SerializeObject(dt2);
+            Users usersxinxiid = JsonConvert.DeserializeObject<List<Users>>(json).FirstOrDefault();
+            if (usersxinxiid!=null)
+            {
+                num = usersxinxiid.UsersId;
+            }
+            return Ok(new {id=dt,usersxinxi= num });
         }
         //患者个人添加资料    
         [HttpPost]
@@ -63,6 +70,19 @@ namespace Doctor_MaxOne_Four.Controllers
             string sql = $"insert into Patient values('{p.PatientName}',{p.PatientSex},{p.PatientAge},'{p.PatientBirthday}')";
             var dt = db.CMD(sql);
             return Ok(dt);
+        }
+        //反填患者个人信息
+        [HttpGet]
+        [Route("FanPatientMessage")]
+        public IActionResult FanPatientMessage(int id)
+        {
+            //id为患者id
+            var sql = $"select * from Patient where PatientID='{id}'";
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            Patient list = JsonConvert.DeserializeObject<List<Patient>>(json).FirstOrDefault();
+            return Ok(list);
+
         }
         //患者修改添加资料    
         [HttpPost]
@@ -195,6 +215,7 @@ namespace Doctor_MaxOne_Four.Controllers
             var dt = db.GetShow<DoctorInfo>(sql);
             return Ok(dt);
         }
+       
         //根据你推荐预约医院点进去后进行预约科室
         [HttpPost]
         [Route("ReservationRecommend")]
@@ -276,6 +297,19 @@ namespace Doctor_MaxOne_Four.Controllers
             string json = JsonConvert.SerializeObject(list);
             List<DoctorInfo> caigou = JsonConvert.DeserializeObject<List<DoctorInfo>>(json);
             return Ok(new { code = 0, msg = "ok", count = id, data = caigou });
+        }
+        //查看具体名医   点击查看是医生的个人信息、
+        [HttpGet]
+        [Route("LookDoctorMyXinxi")]
+        public IActionResult LookDoctorMyXinxi(int id)
+        {
+            //id为   医生的个人id
+            string sql = $"select * from DoctorInfo join Users on Users.UsersId=DoctorInfo.UserDoctorInfo join Address on Address.AddressId=Users.UsersId join  Departments on Departments.DepartmentsId=DoctorInfo.DoctorDepartmentsId  join Hospital on Hospital.HospitalId=DoctorInfo.DoctorHospitalId where DoctorId='{id}'";
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            List<DoctorInfo> List = JsonConvert.DeserializeObject<List<DoctorInfo>>(json);
+            return Ok(List);
+        
         }
         //填写根据找名医  填写预约单
         [HttpGet]
@@ -383,7 +417,7 @@ namespace Doctor_MaxOne_Four.Controllers
                     {
                         CreatePatient cp = new CreatePatient();
                         cp.PatientPmg = "/img/" + item.FileName;
-                        string sql = $"insert into CreatePatient values('{Request.Form["PatientName"]}','{Request.Form["PatientPhone"]}','{Request.Form["PatientBirthday"]}','{Request.Form["PatientSex"]}','{Request.Form["PatientDisease"]}','{Request.Form["PatientProcess"]}','{cp.PatientPmg}','{Request.Form["PatientPurpose"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientDocoterNameId"]}')";
+                        string sql = $"insert into CreatePatient values('{Request.Form["PatientName"]}','{Request.Form["PatientPhone"]}','{Request.Form["PatientBirthday"]}','{Request.Form["PatientSex"]}','{Request.Form["PatientDiseaseName"]}','{Request.Form["PatientProcess"]}','{cp.PatientPmg}','{Request.Form["PatientPurpose"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientDisease"]}','{Request.Form["PatientRecommend"]}','{Request.Form["PatientDocoterNameId"]}')";
                         var dt = db.CMD(sql);
                         await item.CopyToAsync(straem);
 
@@ -433,15 +467,87 @@ namespace Doctor_MaxOne_Four.Controllers
             var dt = db.CMD(sql);
             return Ok(dt);
         }
+        //点击医生端个人信息  完善信息   完善是医生第一次登录注册  并没有该医生的信息
+        //一种是你的账号和密码 类似qq什么的   个人是社会中的信息
+        [HttpPost]
+        [Route("AddDoctorInfoFirst")]
+        public async Task<IActionResult> AddDoctorInfoFirst()
+        {
+            var file = Request.Form.Files;
+            foreach (var item in file)
+            {
+                if (item.Length > 0)
+                {
+                    var wwwroot = iweb.ContentRootPath + "/wwwroot/img/";
+                    var filename = Path.Combine(wwwroot, item.FileName);
+                    using (var straem = System.IO.File.Create(filename))
+                    {
+                        DoctorInfo d = new DoctorInfo();
+                        d.DoctorPicture = "/img/" + item.FileName;
+                        string sql = $"insert into DoctorInfo values('{d.DoctorPicture}','{Request.Form["DoctorName"]}','{Request.Form["DoctorEducation"]}','{Request.Form["DoctorDepartmentsId"]}','{Request.Form["DoctorHospitalId"]}','{Request.Form["DoctorPosition"]}','{Request.Form["DoctorGood"]}','{Request.Form["DoctorWhy"]}','{Request.Form["DoctorHonour"]}','{Request.Form["DoctorMoney"]}','{Request.Form["DoctorMoney"]}','{Request.Form["DoctorNowMoney"]}','{Request.Form["UserDoctorInfo"]}')";
+                        var dt = db.CMD(sql);
+                        await item.CopyToAsync(straem);
+
+                    }
+                }
+
+            }
+            return Ok();
+           
+        }
+        //根据登录的id获取登录信息
+        [HttpGet]
+        [Route("DoctorXinxiInName")]
+        public IActionResult DoctorXinxiInName(int id)
+        {
+            //id   登陆的id
+            string sql = $"select UsersName from Users where UsersId='{id}'";
+            var dt2 = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt2);
+            Users usersxinxiid = JsonConvert.DeserializeObject<List<Users>>(json).FirstOrDefault();
+            return Ok(usersxinxiid.UsersName);
+        }
+        //反填医生的个人信息
+        [HttpGet]
+        [Route("FanDoctorMySelf")]
+        public IActionResult FanDoctorMySelf(int id)
+        {
+            //id登陆后的id
+            string sql = $"select * from DoctorInfo where DoctorId='{id}'";
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            DoctorInfo list = JsonConvert.DeserializeObject<List<DoctorInfo>>(json).FirstOrDefault();
+            return Ok(new { data=list,img=list.DoctorPicture});
+        }
         //修改医生的个人信息
         [HttpGet]
-        [Route("ShowOneDoctor")]
-        public IActionResult ShowOneDoctor(int id)
+        [Route("UpdateDoctorMySelf")]
+        public async Task< IActionResult> ShowOneDoctor()
         {
-            //id为医生的id  这是登陆后的  
-            string sql = $"update DoctorInfo set DoctorName='{Request.Form["DoctorName"]}',DoctorPosition='{Request.Form["DoctorPosition"]}',DoctorHospitalId='{Request.Form["DoctorHospitalId"]}',DoctorDepartmentsId='{Request.Form["DoctorDepartmentsId"]}' where DoctorId='{id}' ";
-            var dt = db.CMD(sql);
-            return Ok(dt);
+            var file = Request.Form.Files;
+            foreach (var item in file)
+            {
+                if (item.Length > 0)
+                {
+                    var wwwroot = iweb.ContentRootPath + "/wwwroot/img/";
+                    var filename = Path.Combine(wwwroot, item.FileName);
+                    using (var straem = System.IO.File.Create(filename))
+                    {
+                        DoctorInfo d = new DoctorInfo();      
+                        //id为医生的id  这是登陆后的  
+                        d.DoctorPicture = "/img/" + item.FileName;
+                        string sql = $"update  DoctorInfo set DoctorPicture='{d.DoctorPicture}',DoctorName='{Request.Form["DoctorName"]}',DoctorEducation='{Request.Form["DoctorEducation"]}',DoctorDepartmentsId='{Request.Form["DoctorDepartmentsId"]}',DoctorHospitalId='{Request.Form["DoctorHospitalId"]}',DoctorPosition='{Request.Form["DoctorPosition"]}',DoctorGood='{Request.Form["DoctorGood"]}',DoctorWhy='{Request.Form["DoctorWhy"]}',DoctorHonour='{Request.Form["DoctorHonour"]}',DoctorMoney='{Request.Form["DoctorMoney"]}',DoctorMoney='{Request.Form["DoctorMoney"]}',DoctorNowMoney='{Request.Form["DoctorNowMoney"]}',UserDoctorInfo='{Request.Form["UserDoctorInfo"]}' where DoctorId='{Request.Form["DoctorId"]}'";
+                        var dt = db.CMD(sql);
+                        await item.CopyToAsync(straem);
+
+                    }
+                }
+
+            }
+            return Ok();
+
+           
+
         }
         //下拉框  医院
         [HttpGet]
@@ -449,17 +555,21 @@ namespace Doctor_MaxOne_Four.Controllers
         public IActionResult XLKHospital()
         {
             string sql = $"select * from Hospital";
-            var dt = db.GetShow<Hospital>(sql);
-            return Ok(dt);
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            List<Hospital> list = JsonConvert.DeserializeObject<List<Hospital>>(json);
+            return Ok(list);
         }
         //下拉框  科室
         [HttpGet]
         [Route("XLKDepartments")]
         public IActionResult XLKDepartments()
         {
-            string sql = $"select * from Departments where DepartmentsId=0";
-            var dt = db.GetShow<Departments>(sql);
-            return Ok(dt);
+            string sql = $"select * from Departments where DepartmentsFather=0";
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            List<Departments> list = JsonConvert.DeserializeObject<List<Departments>>(json);
+            return Ok(list);
         }
         //创建问卷调查表--给医生的
         [HttpGet]
@@ -519,22 +629,26 @@ namespace Doctor_MaxOne_Four.Controllers
         }
         //个人中心   我的账户
         [HttpGet]
-        [Route("MyMoney")]
+        [Route("DoctorMyMoney")]
         public IActionResult MyMoney(int id)
         {
             //id 为医生的id  
             string sql = $"select * from DoctorInfo where DoctorId={id}";
-            var dt = db.GetShow<DoctorInfo>(sql);
-            return Ok(dt);
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            DoctorInfo list = JsonConvert.DeserializeObject<List<DoctorInfo>>(json).FirstOrDefault();
+            return Ok(list.DoctorNowMoney);
         }
         //客服 常见问题以及答案  只显示问题
         [HttpGet]
         [Route("AllWhy")]
         public IActionResult AllWhy()
         {
-            string sql = "select QuestionAnswerTitle from QuestionAnswer";
-            var dt = db.GetShow<QuestionAnswer>(sql);
-            return Ok(dt);
+            string sql = "select * from QuestionAnswer";
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            List<QuestionAnswer> list = JsonConvert.DeserializeObject<List<QuestionAnswer>>(json);
+            return Ok(list);
         }
         //客服问题答案
         [HttpGet]
@@ -543,8 +657,10 @@ namespace Doctor_MaxOne_Four.Controllers
         {
             //id为问题标题id
             string sql = $"select * from QuestionAnswer where QuestionAnswerId='{id}'";
-            var dt = db.GetShow<QuestionAnswer>(sql);
-            return Ok(dt);
+            var dt = db.GetShow(sql);
+            string json = JsonConvert.SerializeObject(dt);
+            QuestionAnswer list = JsonConvert.DeserializeObject<List<QuestionAnswer>>(json).FirstOrDefault();
+            return Ok(list);
         }
         //点击签约专家去外地会诊信息 点击签约自动添加信息
         [HttpPost]

@@ -1,0 +1,52 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorMyCenter</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <h1>你好，  <span id="span"></span></h1>
+    <a href="/Doctor/AddDoctorInfo?id=@ViewBag.IndexToMyCenterId">完善个人信息</a>
+    <br />
+    <a href="/Doctor/UpdateDoctorMySelf?id=@ViewBag.IndexToMyCenterId">修改个人信息</a>
+    <br />
+    <a>未处理患者</a>
+    <br />
+    <a href="/Doctor/DoctorMyMoney?id=@ViewBag.IndexToMyCenterId">我的账户</a>
+    <br />
+    <a href="/Doctor/DoctorSignedExpert">成为签约专家</a>
+    <br />
+    <a onclick="Lian()">联系客服</a>
+    <br />
+    <a href="/Doctor/DoctorCommonProblem">常见问题</a>
+    <br />
+    <br />
+    <a href="/Doctor/DoctorLookProtocol">查看协议</a>
+    <br />
+    <div id="div"></div>
+</body>
+</html>
+<script>
+    IndexToMyCenterId();
+    function IndexToMyCenterId() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DoctorXinxiInName?id="+@ViewBag.IndexToMyCenterId,
+            type: "get",
+            success: function (h) {
+                $("#span").append(h);
+            }
+        })
+    }
+    //联系客服
+    function Lian() {
+        alert("请拨打客服电话：1760077593");
+        $("#div").append(请拨打客服电话：1760077593);
+    }
+</script>

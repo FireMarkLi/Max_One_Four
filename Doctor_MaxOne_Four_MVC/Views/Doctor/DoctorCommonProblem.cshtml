@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorCommonProblem</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <h1>名医主刀常见问题即答案</h1>
+    <div id="wen"></div>
+    <div id="daan"></div>
+</body>
+</html>
+<script>
+    Wen();
+    function Wen() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/AllWhy",
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#wen").append("<a id='" + this.questionAnswerId + "' onclick='daan(" + this.questionAnswerId+")'>" + this.questionAnswerTitle+"</a><br />");
+                });
+            }
+        })
+    }
+    //答案
+    function daan(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/Answer?id="+id,
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#daan").append("<span >您的问题是：" + this.questionAnswerTitle + "</span><br />");
+                    $("#daan").append("<span >答案：" + this.questionAnswerOk + "</span><br />");
+                });
+               
+            }
+        })
+    }
+</script>

@@ -1,0 +1,192 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateDoctorMySelf</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <form method="post">
+        <table>
+            <tr>
+                <td>您的头像</td>
+                <td>
+                    <input id="File1" type="file" />
+                    <div><img src="" id="img" style="width:200px;height:200px" /></div>
+                </td>
+            </tr>
+            <tr>
+                <td>您的姓名</td>
+                <td>
+                    <input id="Name" type="text" placeholder="请输入您的姓名" />
+                </td>
+            </tr>
+            <tr>
+                <td>您的学历</td>
+                <td>
+                    <select id="XueLi">
+                        <option value="大专">大专</option>
+                        <option value="本科">本科</option>
+                        <option value="研究生">研究生</option>
+                        <option value="博士">博士</option>
+                        <option value="硕士">硕士</option>
+                        <option value="教授">教授</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>您所属的医院</td>
+                <td>
+                    <select id="hospital">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>您所属的科室</td>
+                <td>
+                    <select id="department">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>您的职位</td>
+                <td>
+                    <select id="Zhiwei">
+                        <option value="主刀医生">主刀医生</option>
+                        <option value="主治医师">主治医师</option>
+                        <option value="主任">主任</option>
+                        <option value="护士长">护士长</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>您的擅长领域</td>
+                <td>
+                    <textarea id="LingYu" rows="6" cols="60"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>推荐您的理由</td>
+                <td>
+                    <textarea id="Why" rows="6" cols="60"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>您所获得过的荣誉</td>
+                <td>
+                    <textarea id="Rongyu" rows="6" cols="60"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>预约您所需要的金钱</td>
+                <td>
+                    <input id="Money" type="number" />
+                </td>
+            </tr>
+            <tr>
+                <td>您的职业经历</td>
+                <td><textarea id="JingLi" rows="6" cols="60"></textarea></td>
+            </tr>
+            <tr>
+                <td>您的帐号</td>
+                <td>@ViewBag.UpdateDOctorMySelfId</td>
+            </tr>
+            <tr>
+                <td><input id="Button1" type="button" value="确定" onclick="Add()" /></td>
+                <td><input id="Button1" type="button" value="取消" href="/Doctor/DoctorMyCenter?id=@ViewBag.UpdateDOctorMySelfId" /></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+<script>
+    //绑定医院
+    XLKHospital();
+    function XLKHospital() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKHospital",
+            type: "get",
+            success: function (h) {
+                $("#hospital").empty();
+                $(h).each(function () {
+                    $("#hospital").append("<option value='" + this.hospitalId+ "'>" + this.hospitalName+"</option>");
+                });
+            }
+        })
+    }
+    //绑定所属科室
+    XLKDepartment();
+    function XLKDepartment() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKDepartments",
+            type: "get",
+            success: function (h) {
+                $("#department").empty();
+                $(h).each(function () {
+                    $("#department").append("<option value='" + this.departmentsId + "'>" + this.departmentsname + "</option>");
+                });
+            }
+        })
+    }
+    //反填数据
+    Fan();
+    function Fan() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/FanDoctorMySelf?id=@ViewBag.UpdateDOctorMySelfId",
+            type: "get",
+            success: function (h) {
+                console.log(h.data);
+                if (h.data!=0) {
+                    $("#img").attr('src', 'http://localhost:52083/' + h.img);
+                    $(h.data).each(function () {
+                        $("#Name").val(this.doctorName);
+                        $("#XueLi").val(this.doctorEducation); 
+                        $("#hospital").val(this.doctorHospitalId);
+                        $("#department").val(this.doctorDepartmentsId);
+                        $("#Zhiwei").val(this.doctorPosition);
+                        $("#Why").val(this.doctorWhy);
+                        $("#Rongyu").val(this.doctorHonour);
+                        $("#Money").val(this.doctorMoney);
+                        $("#JingLi").val(this.doctorExperience);
+                        $("#LingYu").val(this.doctorGood);
+                    })
+                }
+            }
+        })
+    }
+    //修改按钮点击事件
+    function Add() {
+        var a = new FormData();
+        a.append("DoctorPicture", $("#File1").get(0).files[0]);
+        a.append("DoctorName", $("#Name").val());
+        a.append("DoctorEducation", $("#XueLi").val()); 
+        a.append("DoctorDepartmentsId", $("#department").val());
+        a.append("DoctorHospitalId", $("#hospital").val());
+        a.append("DoctorPosition", $("#Zhiwei").val());
+        a.append("DoctorGood", $("#LingYu").val());
+        a.append("DoctorWhy", $("#Why").val());
+        a.append("DoctorHonour", $("#Rongyu").val());
+        a.append("DoctorMoney", $("#Money").val());
+        a.append("DoctorExperience", $("#JingLi").val());
+        a.append("DoctorNowMoney", 0);
+        a.append("UserDoctorInfo",@ViewBag.UpdateDOctorMySelfId);
+        a.append("DoctorId",@ViewBag.UpdateDOctorMySelfId);
+        $.ajax({
+            url: "http://localhost:52083/Doctor/UpdateDoctorMySelf",
+            data: a,
+            type: "post",
+            async: true,
+            contentType: false,
+            processData: false,
+            success: function (h) {
+                location.href = '/Doctor/DoctorMyCenter?id=@ViewBag.UpdateDOctorMySelfId';
+            }
+        })
+    }
+</script>

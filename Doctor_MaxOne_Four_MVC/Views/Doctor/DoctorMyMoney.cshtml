@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorMyMoney</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <h1>我的账户</h1>
+    <h2>我的账户余额为：<span id="span"></span></h2>
+</body>
+</html>
+<script>
+    Money();
+    function Money() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DoctorMyMoney?id=@ViewBag.DoctorMyMoneyId",
+            type: "get",
+            success: function (h) {
+                $("#span").append(h);
+            }
+        })
+    }
+</script>
