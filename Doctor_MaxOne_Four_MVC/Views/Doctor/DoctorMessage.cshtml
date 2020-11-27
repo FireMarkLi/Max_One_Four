@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "DoctorMessage";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorMessage</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align: center;">
+    <h1>医生的详情信息</h1>
+    <br />
+    <div id="Xinxi">
+
+
+    </div>
+    <input id="Button1" type="button" value="预约医生" onclick="ReservationDoctor()" style="background:#AFEEEE;width:70px;height:30px"  />
+</body>
+</html>
+<script>
+    SHow();
+    function SHow() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/LookDoctorMyXinxi?id="+@ViewBag.DoctorMessagedoctorid,
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    console.log(h);
+                    $("#Xinxi").append(""
+                        + "             <img src='http://localhost:52083"+ this.doctorPicture +"' style = 'width:300px;height:300px;' />              "
+          +"             <br />                                                             "
+                        + "             <span>姓名：</span><span>" + this.doctorName+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>学历：</span><span>" + this.doctorEducation+"</span>                                   "
+          +"             <br />                                                                "
+                        + "             <span>科室：</span><span>" + this.departmentsname+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>医院：</span><span>" + this.hospitalName+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>职位：</span><span>" + this.doctorPosition+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>领域：</span><span>" + this.doctorGood+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>理由：</span><span>" + this.doctorWhy+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>荣誉：</span><span>" + this.doctorHonour+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>职业经历：</span><span>" + this.doctorExperience+"</span>                                         "
+        +"                ");
+                })
+            }
+        })
+    }
+    //点击跳转到添加预约单
+    function ReservationDoctor()
+    {
+        location.href = '/Doctor/HaveDoctorReservation?id=' + @ViewBag.DoctorMessageId+"&doctorid=" + @ViewBag.DoctorMessagedoctorid;
+    }
+</script>

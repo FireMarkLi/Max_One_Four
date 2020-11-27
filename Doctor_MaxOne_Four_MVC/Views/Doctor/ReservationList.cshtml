@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewData["Title"] = "ReservationList";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ReservationList</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div style="width:1700px;height:800px;background;float:left;margin-top:50px;margin-left:0px">
+        <div style="width:1700px;margin-top:0px;float:left;margin-left:800px"><h2><b>填写预约单</b></h2></div>
+        <div style="width:1000px;margin-top:0px;float:left;margin-left:350px;height:650px">
+            <table style="float:left;margin-left:200px">
+                <tr>
+                    <td>就诊科室</td>
+                    <td><p id="deparment"></p></td>
+                </tr>
+                <tr>
+                    <td>就诊医院</td>
+                    <td><p id="hospital"></p></td>
+                </tr>
+                <tr>
+                    <td>患者姓名</td>
+                    <td><p id="name"></p></td>
+                </tr>
+                <tr>
+                    <td>病例名称</td>
+                    <td><input id="bing" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>疾病描述</td>
+                    <td><input id="miao" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>上传病例</td>
+                    <td><input id="File1" type="file" /></td>
+                </tr>
+                <tr>
+                    <td  style="font-size:15px"><input id="Button1" type="button" value="提交预约" onclick="ok()" style="background:#AFEEEE;width:70px;height:30px"  /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>
+<script>
+    //跟据患者id  获取患者名称
+    PatientIdToPatientName();
+    function PatientIdToPatientName() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientIdToPatientName?id=" + @ViewBag.PatientReservationListId,
+            type: "get",
+            success: function (h) {
+                console.log(h);
+                $("#name").empty();
+                $(h).each(function () {
+                    $("#name").append("" + this.patientName+"");
+                })
+            }
+        })
+    }
+    //跟据科室id获取科室名
+    DeparmentToDeparmentName();
+    function DeparmentToDeparmentName() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DeparmentToDeparmentName?id=" + @ViewBag.DeparmentReservationListId,
+            type: "get",
+            success: function (h) {
+                console.log(h);
+                $("#deparment").empty();
+                $(h).each(function () {
+                    $("#deparment").append("" + this.departmentsname + "");
+                })
+            }
+        })
+    }
+    //跟据医院id获取医院名
+    HospitalIdToHospitalName();
+    function HospitalIdToHospitalName() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/HospitalIdToHospitalName?id=" + @ViewBag.HospitalReservationListId,
+            type: "get",
+            success: function (h) {
+                console.log(h);
+                $("#hospital").empty();
+                $(h).each(function () {
+                    $("#hospital").append("" + this.hospitalName + "");
+                })
+            }
+        })
+    }
+    //提交预约按钮点击事件
+    function ok() {
+        var a = new FormData();
+        a.append("ReservationNameId", @ViewBag.PatientReservationListId);
+       // a.append("ReservationHospitalid", d);
+        a.append("ReservationHospitalid",  @ViewBag.HospitalReservationListId);
+        a.append("ReservationCottomsId", @ViewBag.DeparmentReservationListId);
+        a.append("ReservationDescribe", $("#miao").val());
+        a.append("ReservationImg", $("#File1").get(0).files[0]);
+      //  a.append("ReservationDoctorId", d);
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DoctorReservation",
+            data: a,
+            type: "post",
+            async: false,
+            contentType: false,
+            processData: false,
+            success: function (h) {
+                if (h > 0) {
+                    alert("预约成功");
+                    location.href = "/Doctor/ReservationDepartment?id=" +@ViewBag.PatientReservationListId;
+                }
+                else {
+                    alert("预约失败，该科室下没有医生");
+                    
+                }
+
+            }
+        })
+    }
+</script>

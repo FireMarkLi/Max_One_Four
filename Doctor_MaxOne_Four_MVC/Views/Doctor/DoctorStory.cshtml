@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorStory</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div id="div">
+        
+    </div>
+</body>
+</html>
+<script>
+    Show();
+     function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DoctorStoryToId?id=" + @ViewBag.DoctorStoryId,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "          <div><h1>" + this.doctorStoryTitle+"</h1></div >         "
+             +"      <br />                     "
+                        + "      <img src='http://localhost:52083" + this.doctorStoryImg + "' style='width:250px;height:250px' />     "
+             +"      <br />                     "
+                        + "      <div>" + this.doctorStoryContent+"</div>                "
+                    +"");
+                })
+            }
+        })
+    }
+</script>

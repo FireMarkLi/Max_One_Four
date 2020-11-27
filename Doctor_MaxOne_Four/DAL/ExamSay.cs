@@ -10,10 +10,9 @@ namespace Doctor_MaxOne_Four.DAL
     /// </summary>
     public class ExamSay
     {
-        public int ExamId		 { get; set; }
-        public string ExamName	 { get; set; }
-        public string ExamAnswer	 { get; set; }
-        public int ExamNum { get; set; }
-        public string RealAnswer { get; set; }
+        public int ExamId { get; set; }
+        public string ExamQuestion { get; set; }
+        public int ExamType { get; set; }
+
     }
 }

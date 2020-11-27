@@ -1,0 +1,188 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+      
+    </style>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+</head>
+
+<body style="height:1500px">
+
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="Index"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div style="text-align:center;width:1500px;height:500px;margin-left:250px">
+        <h3>共抗疫情，共克时艰，名医主刀在行动</h3>
+        <h4>
+            2020年的春天是特殊的，疫情牵动着全世界中华儿女，我们或自我隔离不给社会添乱，或积极筹措善款、物资驰援武汉，名医主刀作为上海的大健康领域企业，深知身上责任重大，已经过多方联系，捐赠了一批物资到山西、安徽等有需要的医院。
+
+            捐赠物资有：一万余个医用口罩、数百副医用护目镜、数十箱消毒液，名医主刀创始人&CEO苏舒在春节期间将物资运往防疫一线，在前线物资匮乏的特殊时期，希望我们的一点微薄之力能够缓解医护人员的医疗用品紧缺困局。
+
+
+
+            名医主刀团队将物资送往一线
+
+
+
+
+
+
+
+
+
+            爱心在路上
+
+
+
+
+
+
+
+            科学家们寻找着病毒的源头，你们是健康的准星;
+
+            白衣战士冲锋在前，你们是春风的化身;
+
+            还有每一个关注着疫情的奉献者，你们是爱的热能!
+
+            这个春天少了聚会、少了串门、少了岁岁爆竹声，
+
+            但久闭的家门定会被春风敲开，
+
+            姹紫嫣红的鲜花定会与你相拥!
+            名医主刀是上海创贤网络科技有限公司于2014年10月推出的一家医疗手术平台。
+
+            名医主刀帮助有手术需求的患者，在第一时间预约专家，安排入院手术。
+
+            2015年10月16日，名医主刀获6000万元人民币的A轮融资，同年，入选“第十届中国最具投资价值企业50强”榜单；2016年4月，名医主刀获1.5亿元人民币的B轮融资。
+            名医主刀[1]隶属于上海创贤网络科技有限公司，总部坐落于上海，现设北京、广州、杭州、天津、南京、成都等分部，业务范围覆盖全国。平台汇聚了国内外名医资源和闲置床位资源，并利用互联网技术实现医患匹配，医疗资源优化配置，帮助患者解决“好看病，看好病”的切实需求。[2]
+
+            从成立之初，名医主刀响应国家多点执业政策，利用互联网思维，优化医疗资源分配，让更多患者可以轻松享受北上广等一线城市名医专家资源。患者通过平台可精准对接到擅长相关疾病的专家，从而节省了在不同医院门诊排队的时间，一定程度上缓解三甲医院门诊排队现象并减少患者乱投医而产生的费用。[2]
+
+            同时，名医主刀也在政府提倡的分级诊疗政策和医疗服务模式上进行探索，实现了“互联网+分级诊疗”模式创新。基于基层诊疗制度，遇到疑难病例基层可请名医会诊，基层无法承接的患者可以通过平台转诊。[2]截止2015年，名医主刀已与北京和睦家医院、上海德济医院、上海天坛普华医院和南京医科大学第二附属医院等一批优质的公立及高端私立医院建立了战略合作关系，随时可以提供大量的床位和手术室资源。[2]
+
+            通过与国内多家三甲医院、二甲医院、民营医院合作，基层首诊患者通过名医主刀平台可对接三甲医院医生，在有闲置床位资源的公立医院或民营医院进行手术治疗，有效缓解看病难，看病贵等问题。[2]
+
+            2015年10月17日、18日两天，名医主刀与滴滴出行、阿里健康共同打造的“滴滴医生”项目在北京、上海、南京、杭州4个城市同时开展电召医生服务。[2]活动期间，试点城市共接到呼叫2600多次，筛选、匹配后完成40多单服务。该项目最终获评2015年度十大健康新闻。[1]
+
+            2015年11月28日，在人民日报《健康时报》主办的第八届“健康中国”论坛上，名医主刀荣获“2015年度互联网+医疗行业创新贡献奖”；[1]
+
+            2015年12月2日，名医主刀入选“第十届中国最具投资价值企业50强”榜单。该榜单由清科集团发起，是投资界首个专注高成长企业的年度评选活动，被誉为“投资界的风向标”。[1]
+
+            2016年4月20日在人民大会堂举行“共享名医资源、共铸健康中国”名医公益手术捐赠暨名医宣言发布会。此次活动共获得85位专家捐赠的365台公益手术。名医主刀联合公益组织、企业家、医生、公益明星等社会力量共同展开健康志愿服务，为看不起病的老百姓提供免费专业的医疗卫生服务，并帮助欠发达地区提升整体医疗服务水平和质量。[3]
+
+            2016年5月14日，名医主刀与延安大学附属医院共同建立延安市第一家互联网手术中心，双方以延安大学附属医院为区域手术基地。此举也标志着名医主刀“红色公益之旅”大型活动正式启动。[4]
+
+            2017年4月19日，名医主刀与全国首个服务于肢体伤残、运动功能障碍相关疾病的专科医生集团——上海壹博医生集团签订战略合作协议，标志着名医主刀从与单个医生合作的模式升级到与大型医生集团合作的模式，是名医主刀实现“三步走”战略路上的又一坚实步伐[5]。
+
+            3平台特色编辑
+            匹配专家
+            在突然有手术需求，但不知道到底去哪里就医，或者找哪位专家咨询手术时，名医助手会精心根据提交的病历等资料，充分沟通，最终匹配到该领域专家，找准医生，不耽误病情。[2]
+
+            手术床位
+            在急需手术却因为床位紧张择期手术的情况下，名医助手能够安排到其他医院的闲置床位，请来所期望的专家，让尽快完成手术，早日康复。[2]
+
+            专家前来会诊
+            当行动不方便或者更希望在当地(或者期望的某一城市)进行手术时，名医助手会在确认相关服务后，邀请期望的专家前来会诊并开展手术。[2]
+
+            4服务流程编辑
+            发起预约
+            选择预约顶尖专家或者全国排名靠前的医院科室。
+
+            提交资料
+            通过网站、APP、微信服务号、邮箱或者联系客服等方式提交病历等资料。[2]
+
+            支付预约金
+            手术预约金包括术前专家咨询费、第一次面诊费(如有需要，安排门诊)和手术相关安排费用。此类费用是名医主刀为了提供专业服务、保证服务质量而收取的，并非医院和医生收取，医院和医生也不会在此服务中获得任何商业利益。[2]
+
+            术前评估
+            名医助手会在48小时内将专家的咨询意见反馈给患友，如有需要，一周内安排面诊。
+
+            安排手术
+            根据面诊情况，由名医助手协助在一周内安排住院床位。[2]
+
+            5移动端APP编辑
+            在第三方应用平台输入“名医主刀”，即可下载“名医主刀”应用软件(标注医生版的则为医生使用)。[2]
+
+            登录后，可以对某一科室/疾病领域的专家，或者该领域的医院科室，进行预约。同时，可以在个人中心里查看预约单的进度、补充上传电子病历等资料
+        </h4>
+    </div>
+
+
+
+
+    
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
+</body>
+
+</html>

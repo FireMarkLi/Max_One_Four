@@ -2,21 +2,309 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
+
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+
 </head>
-<body>
+<body style="height:1800px">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"  onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div style="width:1110px;height:1500px;margin-top:30px;border: solid  5px #6495ED;border-radius:10%">
+                <form method="post">
+                    <h2 style="color:#6495ED">患者个人资料添加</h2>
+                    <div>
+                        <h3><b>患者姓名</b></h3>
+                        <div><input id="Name" type="text" placeholder="请输入患者姓名" style="width:200px;height:35px" /></div>
+                    </div>
+                    <div>
+                        <h3><b>联系方式</b></h3>
+                        <div><input id="Phone" type="text" placeholder="请输入患者的联系方式" style="width:200px;height:35px" /></div>
+                    </div>
+                    <div>
+                        <h3><b>出生年月</b></h3>
+                        <div><input id="Birthday" type="date" style="width:200px;height:35px" /></div>
+                    </div>
+                    <div>
+                        <h3><b>患者性别</b></h3>
+                        <div>
+                            <input id="nan" type="radio" name="a" value="1" />男
+                            <input id="nv" type="radio" name="a" value="2">女
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>所在城市</b></h3>
+                        <div>
+                            <select id="City" onclick="Doctor2()" style="width:200px;height:35px">
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>当前诊断</b></h3>
+                        <div>
+                            <div id="PatientDiseaseName"></div>
+                            <br />
+                            <div>
+                                <select id="keshi" onchange="bing2()">
+                                </select>
+                                <select id="bing">
+                                </select>
+                                <input id="Button1" style="background-color:aqua;color:white;width:100px;height:50px" type="button" value="确定" onclick="Patient()" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>疾病简介和治疗过程</b></h3>
+                        <div>
+                            <textarea id="Process" rows="10" cols="100"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>上传病例（图片或者视频）</b></h3>
+                        <div>
+                            <input id="File1" style="background-color: peru; color: aqua" type="file" />
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>请选择您的就诊意向</b></h3>
+                        <div>
+                            <input id="place" type="radio" name="b" value="1" /><h4>邀请医生过来</h4>
+                            <input id="go" type="radio" name="b" value="2" /><h4>希望转诊治疗</h4>
+                        </div>
+                    </div>
+                    <div>
+                        <h3><b>根据疾病我们为您推荐：</b></h3>
+                        <div id="Type"></div>
+                    </div>
+                    <br />
+                    <div><input id="Button1" type="button" style="background-color:aqua;color:white;width:100px;height:50px" value="提交" onclick="Add()" /></div>
+                </form>
+
+            </div>
+        </main>
+
+    </div>
 
 
 
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
 </body>
 </html>
 <script>
+    var lastname = localStorage.getItem("key");
+    function wode() {
+        location.href = "/Doctor/DoctorMyCenter?id=" + lastname;
+    }
+    var first = localStorage.getItem("first");
+    function Index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
+    //所在城市  关联地区表
+    City();
+    keshi();
+    function City() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKAddress",
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#City").append("<option value='" + this.addressId + "'>" + this.addressName + "</option>")
+                })
+            }
+        })
+    }
+
+    //科室疾病下拉框   父级id为0
+    function keshi() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DiseaseShow",
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#keshi").append("<option value='" + this.diseaseId + "'>" + this.diseaseDepartments + "</option>");
+                })
+            }
+        })
+    }
+    //病  的具体
+    function bing2() {
+        console.log(parseInt($("#keshi").val()));
+        $.ajax({
+            url: "http://localhost:52083/Doctor/FatherInDisease?id=" + parseInt($("#keshi").val()),
+            type: "get",
+            success: function (h) {
+                $("#bing").empty();
+                $(h).each(function () {
+                    $("#bing").append("<option value='" + this.diseaseId + "'>" + this.diseaseDepartments + "</option>")
+                })
+            }
+        })
+    }
+    //点击确定吧病放在文本上
+    function Patient() {
+        var data = $("#bing").text();
+        $("#PatientDiseaseName").append(data);
+    }
+    //推荐的医生 根据所填城市所推荐
+
+    function Doctor2() {
+        var id = $("#City").val();
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKLookDoctor?id=" + id,
+            type: "get",
+            success: function (h) {
+                $("#Type").empty();
+                $(h).each(function () {
+                    $("#Type").append(""
+                        + "<img src='http://localhost:52083" + this.doctorPicture + "' style='width:200px;height:150px;float:left' value='" + this.doctorId + "'  />"
+                        + "                 <div style='width:400px;height:800px;float:left;' >                 "
+                        + " <input id='Doctor' type='radio' class='item' name='doctor' value='" + this.doctorId + "' />选择这名医生"
+                        + "                     <h2><b id='Doctorname' value='" + this.doctorId + "'>" + this.doctorName + "</b>&nbsp;</h2>                          "
+                        + "                     <p id='Doctorkeshi' value='" + this.departmentsId + "'>" + this.hospitalName + "      " + this.doctorPosition + "</p>                        "
+                        + "                     <p id='Doctoryiyuan' value='" + this.hospitalId + "' style='color:#66CDAA'>" + this.departmentsname + "</p> "
+                        + "<a onclick='Look(" + this.doctorId + ")'>查看详情</a>"
+                        + "     </div>");
+                })
+
+            }
+        })
+    }
+    //点击推荐的医生，进入医生详情信息
+    function Look(id) {
+        location.href = '/Doctor/CreateInParticularsMessage?id=' + id;
+    }
+    var d = 0;
+    var b = 0;
+    var c = 0;
+    //点击提交按钮进入后台
+    function Add() {
+        var a = new FormData();
+        a.append("PatientPmg", $("#File1").get(0).files[0]);
+        a.append("PatientName", $("#Name").val());
+        a.append("PatientPhone", $("#Phone").val());
+        a.append("PatientBirthday", $("#Birthday").val());
+        if ($("#nan").prop("checked") == true) {
+            a.append("PatientSex", $("#nan").val());
+        }
+        else {
+            a.append("PatientSex", $("#nv").val());
+        }
+        a.append("PatientDiseaseName", $("#PatientDiseaseName").text());
+        a.append("PatientProcess", $("#Process").val());
+        if ($("#place").prop("checked") == true) {
+            a.append("PatientPurpose", $("#place").val());
+        }
+        else {
+            a.append("PatientPurpose", $("#go").val());
+        }
+        a.append("PatientRecommend", $("#City").val());
+
+
+        $(".item").each(function () {
+            if ($(this).prop("checked") == true) {
+                //获取这个医生的id
+                alert($(this).val());
+                $.ajax({
+                    url: "http://localhost:52083/Doctor/ShowDoctorXinxi?id=" + $(this).val(),
+                    type: "get",
+                    async: false,
+                    success: function (h) {
+                        console.log(h);
+                        $(h).each(function () {
+                            d = this.doctorDepartmentsId
+                            b = this.doctorId
+                            c = this.doctorHospitalId
+
+                        })
+
+                    }
+                })
+            }
+        })
+        a.append("PatientDiseaseId", d);
+        a.append("PatientDocoterNameId", b);
+        a.append("PatientHospitalId", c);
+        console.log(a);
+        $.ajax({
+            url: "http://localhost:52083/Doctor/Create",
+            data: a,
+            type: "post",
+            async: false,
+            contentType: false,
+            processData: false,
+            success: function (h) {
+                location.href = 'window.history.go(-1)';
+            }
+        })
+    }
 
 </script>

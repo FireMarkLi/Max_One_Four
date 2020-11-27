@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
 }
 
 <!DOCTYPE html>
@@ -10,10 +10,18 @@
     <meta name="viewport" content="width=device-width" />
     <title>DoctorMyMoney</title>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-image: url(http://localhost:52083/img/d6.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 <body>
-    <h1>我的账户</h1>
-    <h2>我的账户余额为：<span id="span"></span></h2>
+    <center><h1>我的账户</h1></center>
+    <center><h2>我的账户余额为：<span id="span2"></span></h2></center>
 </body>
 </html>
 <script>
@@ -23,7 +31,7 @@
             url: "http://localhost:52083/Doctor/DoctorMyMoney?id=@ViewBag.DoctorMyMoneyId",
             type: "get",
             success: function (h) {
-                $("#span").append(h);
+                $("#span2").append(h);
             }
         })
     }

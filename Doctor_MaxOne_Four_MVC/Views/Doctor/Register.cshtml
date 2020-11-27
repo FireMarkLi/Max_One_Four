@@ -1,0 +1,162 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-image: url(/img/5eb.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <center><h1 style="margin-top:40px;font-size:48px">名医主刀注册界面</h1></center>
+    <table style="margin:0 auto;height:680px;width:800px;background:rgba(255,255,255,.6);border-radius:5px">
+        <tr>
+            <td><span style="font-size:24px">账号</span></td>
+            <td><input id="name" type="text" style="border: 0; height: 32px; border-radius: 5px; min-width: 300px " /></td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">密码</span></td>
+            <td><input id="pwd" type="password" style="border: 0; height: 32px; border-radius: 5px; min-width: 300px " /></td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">您的身份</span></td>
+            <td>
+                <select id="Status" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
+                    <option value="1">患者</option>
+                    <option value="2">医生</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">所处地区</span></td>
+            <td>
+                <select id="City" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">若你是医生请点击调查问卷进行答题</span></td>
+            <td>
+                <input id="Button1" type="button" value="调查问卷" onclick="diao()" style=" border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+                <span id="num">@ViewBag.ZhuCeNumQ</span>
+            </td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">手机号</span></td>
+            <td><input id="Text1" type="text" style="border:0;height:35px;border-radius:5px;min-width:150px" /><input id="btn" type="button" value="获取验证码" onclick="settimes()" style="margin-left:26px;border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" /></td>
+        </tr>
+        <tr>
+            <td><span style="font-size:24px">验证码</span></td>
+            <td>
+                <input id="Text2" type="text" style="border:0;height:35px;border-radius:5px;min-width:150px" />
+                <input id="ss" type="hidden" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><center><input id="Button1" type="button" value="注册" onclick="zhuce()" style="border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" /></center></td>
+        </tr>
+    </table>
+</body>
+</html>
+<script>
+    City();
+    function City() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKAddress",
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#City").append("<option value='" + this.addressId + "'>" + this.addressName + "</option>")
+                })
+            }
+        })
+    }
+    function diao() {
+        location.href = '/Doctor/Questionnaire';
+    }
+    function zhuce() {
+        if ($("#Text2").val() == $("#ss").val()) {
+            alert("验证通过");
+            var data = {};
+            data.UsersName = $("#name").val();
+            data.UsersPwd = $("#pwd").val();
+            data.UsersState = parseInt($("#Status").val());
+            data.UsersAdress = parseInt($("#City").val());
+            data.UsersExam = parseInt($("#num").text());
+            console.log(data);
+            $.ajax({
+                url: "http://localhost:52083/Doctor/Login",
+                type: "post",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (h) {
+                    if (h > 0) {
+                        alert("注册成功");
+                        location.href = "/Doctor/Login";
+                    }
+                    else {
+                        alert("注册失败");
+                    }
+                }
+            })
+        }
+        else {
+            alert("验证失败");
+            location.href = "/Doctor/Register";
+        }
+
+    }
+
+    function settimes() {
+        var a = $("#Text1").val();
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(a)) {
+            alert('请输入正确的手机号');
+            return;
+        } else {
+            $.ajax({
+                url: "/Doctor/Page_Load?mobile=" + a,
+                type: "get",
+                success: function (d) {
+                    $("#ss").val(d);
+                }
+            })
+
+
+        }
+        countdown = setInterval(settime, 1000);
+    }
+
+
+    var count = 60;
+    function settime() {
+        $("#btn").attr("disabled", true);
+        $("#btn").removeAttr('onclick');
+        $("#btn").addClass("btn-secondary");
+        $("#btn").removeClass('btn-primary');
+        $("#btn").val(count + "秒后获取");
+        console.log('1');
+        if (count == 0) {
+            $("#btn").removeAttr("disabled");
+            $("#btn").attr('onclick', "settimes();");
+            $("#btn").addClass("btn-primary");
+            $("#btn").removeClass('btn-secondary');
+            $("#btn").val("获取验证码");
+            clearInterval(countdown)
+        }
+        count--;
+    }
+</script>

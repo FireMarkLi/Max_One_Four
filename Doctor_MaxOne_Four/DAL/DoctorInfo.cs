@@ -16,11 +16,12 @@ namespace Doctor_MaxOne_Four.DAL
         public int DoctorDepartmentsId { get; set; }
         public int DoctorHospitalId { get; set; }
         public string DoctorPosition		 { get; set; }
-      
+          public int DoctorMoney			 { get; set; }
+
         public string DoctorGood			 { get; set; }
         public string DoctorWhy			 { get; set; }
         public string DoctorHonour		 { get; set; }
-        public int DoctorMoney			 { get; set; }
+   
         public string DoctorExperience	 { get; set; }
         public int DoctorNowMoney { get; set; }
         public string DoctorPicture { get; set; }

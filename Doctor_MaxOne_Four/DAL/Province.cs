@@ -18,5 +18,6 @@ namespace Doctor_MaxOne_Four.DAL
         public string ProvinceMoney	 { get; set; }
         public string ProvinceDistrict { get; set; }
         public string ProvinceRequire { get; set; }
+        public int ProvinceDoctorId { get; set; }
     }
 }

@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <link href="~/back/css/custom.css" rel="stylesheet" />
+    <link href="~/back/css/fontastic.css" rel="stylesheet" />
+    <link href="~/back/css/grasp_mobile_progress_circle-1.0.0.min.css" rel="stylesheet" />
+    <link href="~/back/css/style.blue.css" rel="stylesheet" />
+    <link href="~/back/css/style.default.css" rel="stylesheet" />
+    <link href="~/back/css/style.green.css" rel="stylesheet" />，
+    <link href="~/back/css/style.pink.css" rel="stylesheet" />
+    <link href="~/back/css/style.red.css" rel="stylesheet" />
+    <link href="~/back/css/style.sea.css" rel="stylesheet" />
+    <link href="~/back/css/style.violet.css" rel="stylesheet" />
+    <link href="~/back/icons-reference/styles.css" rel="stylesheet" />
+    <link href="~/back/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/back/vendor/bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
+    <link href="~/back/vendor/bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />
+    <link href="~/back/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/back/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <!-- Side Navbar -->
+    <nav class="side-navbar">
+        <div class="side-navbar-wrapper">
+            <!-- Sidebar Header    -->
+            <div class="sidenav-header d-flex align-items-center justify-content-center">
+                <!-- User Info-->
+                <div class="sidenav-header-inner text-center">
+                    <h2 class="h5">名医主刀</h2>
+                </div>
+                <!-- Small Brand information, appears on minimized sidebar-->
+                <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>B</strong><strong class="text-primary">D</strong></a></div>
+            </div>
+            <!-- Sidebar Navigation Menus-->
+            <div class="main-menu">
+                <h5 class="sidenav-heading">Main</h5>
+                <ul id="side-main-menu" class="side-menu list-unstyled">
+                    <li><a href="PatientIndex"> <i class="icon-home"></i>首页                             </a></li>
+                    <li>
+                        <a onclick="LoogFamousDoctor()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>医生</a>
+                        <ul id="purchase" class="collapse list-unstyled ">
+                        </ul>
+                    </li>
+                    <li>
+                        <a onclick="RecommendHospital()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>医院</a>
+
+                    </li>
+                    <li>
+                        <a onclick="Administrative()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>科室</a>
+
+                    </li>
+
+
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <div class="page">
+        <!-- navbar-->
+        <header class="header">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+
+                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+
+                            <li class="nav-item dropdown">
+
+
+                            </li>
+                            <!-- Log out-->
+                            <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+
+
+    </div>
+    <!-- JavaScript files-->
+    <script src="~/back/vendor/popper.js/umd/popper.min.js"></script>
+    <script src="~/back/vendor/popper.js/popper.min.js"></script>
+    <script src="~/back/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/back/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
+    <script src="~/back/vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="~/back/vendor/chart.js/Chart.min.js"></script>
+    <script src="~/back/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/back/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/back/vendor/chart.js/Chart.min.js"></script>
+    <!-- Main File-->
+    <script src="~/back/js/front.js"></script>
+</body>
+</html>
+<script>
+    var lastname = localStorage.getItem("key");
+    function LoogFamousDoctor() {
+        location.href = '/Doctor/LoogFamousDoctor?id=' + lastname;
+    }
+    function RecommendHospital() {
+        location.href = '/Doctor/RecommendHospital?id=' + lastname;
+    }
+    function Administrative() {
+        location.href = '/Doctor/Administrative';
+    }
+</script>

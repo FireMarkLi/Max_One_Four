@@ -1,0 +1,253 @@
+﻿
+
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 40px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+</head>
+
+<body>
+
+    <header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/Doctor/PatientIndex?id=@ViewBag.PatientIndexId"><h4>首页</h4></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/Doctor/Appointment"><h4>预约</h4></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="/Doctor/PatientFind"><h4>新闻</h4></a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="wode()" class="nav-link text-dark" ><h4>个人中心</h4></a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="Myself()" class="nav-link text-dark"><h4>完善信息</h4></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div id="demo" class="carousel slide" data-ride="carousel">
+
+                <!-- 指示符 -->
+                <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+
+                <!-- 轮播图片 -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+
+                        <img src="~/img/luoo1.png" class="luo" />
+                    </div>
+                    <div class="carousel-item">
+
+                        <img src="~/img/luoo2.png" class="luo" />
+                    </div>
+                    <div class="carousel-item">
+
+                        <img src="~/img/luoo3.png" class="luo" />
+                    </div>
+                    <div class="carousel-item">
+
+                        <img src="~/img/luoo4.png" class="luo" />
+                    </div>
+                </div>
+
+                <!-- 左右切换按钮 -->
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+
+            </div>
+
+            <div style="width:1110px;height:550px;margin-top:30px;border: solid  5px #6495ED;border-radius:10%">
+                <div style="width:1110px;height:65px;margin-top:10px;float:left;margin-left:0px;"><h2><b style="margin-top:20px">最新资讯</b></h2></div>
+                <div style="width:1110px;height:300px;margin-top:40px;">
+
+                    <div style="float:left;margin-left:100px">
+                        <a href="http://localhost:62090/Doctor/Hhhone"><img src="~/img/lll1.png" style="width:378px;height:198px" /></a>
+                    </div>
+                    <div style="float:left;margin-left:150px">
+                        <a href="http://localhost:62090/Doctor/Hhhtwo">
+                            <img src="~/img/lll2.png" style="width:378px;height:198px" />
+
+                        </a>
+                    </div>
+                </div>
+
+                <div style="width:1110px;height:300px;margin-top:0px;">
+                    <div style="float:left;margin-left:100px">
+                        <a href="http://localhost:62090/Doctor/Hhhthree">
+                            <img src="~/img/lll3.png" style="width:378px;height:198px" />
+                        </a>
+                    </div>
+                    <div style="float:left;margin-left:150px">
+                        <a href="http://localhost:62090/Doctor/Hhhfour">
+                            <img src="~/img/lll4.png" style="width:378px;height:198px" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </main>
+    </div>
+
+
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>
+
+
+<script>
+        var a=0;
+        UseridToPatientId();
+        ShowDepartments();
+    //用户id 患者的
+    localStorage.setItem("usersid", @ViewBag.PatientIndexId);
+    var user = localStorage.getItem("usersid");
+
+
+    //获取患者的id
+    function UseridToPatientId() {
+
+        $.ajax({
+            url: "http://localhost:52083/Doctor/LoginIdPatientId?id="+@ViewBag.PatientIndexId,
+            type: "get",
+            async:true,
+            success: function (h) {
+                console.log(h);
+                $(h).each(function () {
+                    localStorage.setItem("key", this.patientID);
+                    var lastname = localStorage.getItem("key");
+                    a=this.patientID
+                })
+            }
+        })
+    }
+    //显示科室
+    function ShowDepartments() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientShowDepartment",
+            type: "get",
+            async:true,
+            success: function (h) {
+
+                $("#div").empty();
+                $(h).each(function () {
+                    var a = "";
+                    if (this.departmentsId%3==0) {
+                        a = "<br />";
+                    }
+                    $("#div").append(""
+                        + "<a value='" + this.departmentsId + "' onclick='Department("+this.departmentsId+")'>" + this.departmentsname + "</a>"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        +""+a+""
+                        + "");
+                })
+
+            }
+        })
+    }
+    //点击科室进入医院的页面
+    function Department(id) {
+        location.href = '/Doctor/DepartmentToHostal?id='+id+"&PatientId="+a;
+        }
+        //找名医
+        function zhao() {
+            location.href = '/Doctor/LoogFamousDoctor?id='+a;
+        }
+        //公益手术
+        function Good() {
+            location.href = '/Doctor/GoodOperation';
+        }
+        //快速预约
+        function RESERVATIONCHANNEL() {
+            location.href = '/Doctor/Appointment?id='+a;
+        }
+        //推荐医院
+        function RecommendHospital() {
+            location.href = '/Doctor/RecommendHospital?id='+a;
+        }
+        //个人中心
+    function wode() {
+        location.href = "/Doctor/PatientMySelf?id=" + a;
+        }
+</script>
+

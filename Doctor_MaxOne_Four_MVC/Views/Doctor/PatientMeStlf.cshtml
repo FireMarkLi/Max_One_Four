@@ -1,0 +1,79 @@
+﻿
+@{
+    Layout = Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PatientMeStlf</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align:center">
+    <div style="background:#ADD8E6;text-align:center">
+        <form>
+            <h1>完善个人信息</h1>
+            <table style="margin-left:550px;margin-top:50px">
+                <tr>
+                    <td>姓名</td>
+                    <td><input id="name" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>
+                        <input id="nan" type="radio" name="a" value="1" />男
+                        <input id="nv" type="radio" name="a" value="0" />女
+                    </td>
+                </tr>
+                <tr>
+                    <td>年龄</td>
+                    <td><input id="num" type="number" /></td>
+                </tr>
+                <tr>
+                    <td>生日</td>
+                    <td><input id="date" type="date" /></td>
+                </tr>
+                <tr>
+                    <td><input id="Button1" type="button" value="添加" onclick="add()" style="background:#AFEEEE;width:70px;height:30px" /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    function add() {
+        var a = {};
+        a.PatientName = $("#name").val();
+        if ($("#nan").prop("checked") == true) {
+            a.PatientSex = 1;
+        }
+        else {
+            a.PatientSex = 0;
+        }
+        a.PatientAge =parseInt( $("#num").val());
+        a.PatientBirthday = $("#date").val();
+        a.UserPatientId = @ViewBag.USersid;
+        console.log(a);
+        $.ajax({
+            url: "http://localhost:52083/Doctor/AddPatientMySelf",
+            type: "post",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(a),
+            dataType: "json",
+            success: function (h) {
+                if (h > 0) {
+                    alert("完善成功");
+                    location.href = "/Doctor/PatientIndex?id="+@ViewBag.USersid;
+                }
+                else {
+                    alert("添加失败");
+                }
+            }
+        })
+
+    }
+</script>

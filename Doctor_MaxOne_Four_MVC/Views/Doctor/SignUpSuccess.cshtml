@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SignUpSuccess</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-image: url(/img/1ef5b.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        #all {
+            width: 360px;
+            margin: 0 auto;
+            height: 340px;
+        }
+    </style>
+</head>
+<body>
+    <div id="all">
+        <h1>恭喜你，签约成功</h1>
+        <h2>感谢您成为名医主刀签约专家</h2>
+        <h2>我们会为您推荐合适的患者</h2>
+        <h2>您签约后的基本信息（可修改）</h2>
+
+        <div id="div">
+
+        </div>
+        <center>
+            <input id="Button1" type="button" value="返回" onclick="tiaozhuan()" />
+            </center>
+    </div>
+</body>
+</html>
+<script>
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/ShowDoctorProvince?id=@ViewBag.SignUpSuccessId ",
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "<h1><a onclick='Upd(" + this.provinceId+")' >修改</a></h1>"
+                        + "<div>外出会诊台数：</div><div>" + this.provinceNum+"</div><br />"
+                        + "<div>交通距离要求：</div><div>" + this.provinceTime +"</div><br />"
+                        + "<div>方便会诊时间：</div><div>" + this.provinceDatetime +"</div><br />"
+                        + "<div>愿意回诊病例</div><div>" + this.provinceCottoms +"</div><br />"
+                        + "<div>每台会诊费用区间：</div><div>" + this.provinceMoney +"</div><br />"
+                        + "<div>常去地区</div><div>" + this.provinceDistrict +"</div><br />"
+                        + "<div>要求</div><div>" + this.provinceRequire +"</div><br />"
+                    +"");
+                })
+            }
+        })
+    }
+    function Upd(id) {
+        location.href = "/Doctor/UpdSignUpSuccess?id="+id;
+    }
+    function tiaozhuan() {
+        location.href = '/Doctor/DoctorSignedExpert?id='+@ViewBag.SignUpSuccessId;
+    }
+</script>

@@ -29,5 +29,13 @@ namespace Doctor_MaxOne_Four.DAL
 
         public int AddressId { get; set; }
         public string AddressName { get; set; }
+
+
+        public int DoctorId { get; set; }
+        public string DoctorName { get; set; }
+        public string DoctorEducation { get; set; }
+        public int DoctorDepartmentsId { get; set; }
+        public int DoctorHospitalId { get; set; }
+        public string DoctorPosition { get; set; }
     }
 }

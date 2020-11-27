@@ -1,0 +1,130 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
+
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body style="height:1800px">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+ 
+    <div style="text-align:center">
+        <h1>医生的详情信息</h1>
+        <br />
+        <div id="Xinxi">
+
+
+        </div>
+        <input id="Button1" type="button" value="返回" onclick="window.history.go(-1)" />
+    </div>
+   
+
+
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
+</body>
+</html>
+<script>
+    SHow();
+    function SHow() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/LookDoctorMyXinxi?id="+@ViewBag.CreateInParticularsMessageId,
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    console.log(h);
+                    $("#Xinxi").append(""
+                        + "             <img src='http://localhost:52083"+ this.doctorPicture +"' style = 'width:300px;height:300px;' />              "
+          +"             <br />                                                             "
+                        + "             <span>姓名：</span><span>" + this.doctorName+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>学历：</span><span>" + this.doctorEducation+"</span>                                   "
+          +"             <br />                                                                "
+                        + "             <span>科室：</span><span>" + this.doctorExperience+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>医院：</span><span>" + this.hospitalName+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>职位：</span><span>" + this.doctorPosition+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>领域：</span><span>" + this.doctorGood+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>理由：</span><span>" + this.doctorWhy+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>荣誉：</span><span>" + this.doctorHonour+"</span>                                   "
+          +"             <br />                                                             "
+                        + "             <span>职业经历：</span><span>" + this.doctorExperience+"</span>                                         "
+        +"                ");
+                })
+            }
+        })
+    }
+</script>

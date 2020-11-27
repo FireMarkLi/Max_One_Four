@@ -2,48 +2,111 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>LookDoctor</title>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
     <script src="~/myPages.js"></script>
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+    </style>
+
 </head>
-<body>
-    <div style="float:left">
+<body style="height:1800px">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"  onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <h2 style="color:blue">名医主刀签约专家</h2>
+    <br />
+    <br />
+    <div>
         <div>
             <select id="Select1">
             </select>
-            <input id="Button1" class="btn-danger" type="button" value="查询" onclick="Look()" />
+            <input id="Button1" class="btn-danger" type="button" style="background-color:aqua;color:white;width:30px;height:25px;" value="查询" onclick="Look()" />
         </div>
         <div>
             <div id="div">
                 @*<img src="http://localhost:52083/img/001.jpg" style="width:150px;height:150px;float:left" />
-                <div style="width:200px;height:400px;float:left;" >
-                    <h2><b id="name">才三军</b>&nbsp;</h2>
-                    <p id="zhiwei" style="margin-top:0px">教授</p>
-                    <p id="keshi">大肠外科&nbsp;主任医师</p>
-                    <p id="yiyuan" style="color:#66CDAA">上海市肿瘤医院</p>
-                    <p><b >擅长：</b>  <font id="shanchang" size=1>对角膜屈光手术及青少年近视防控方面有着非常丰富的临场经验，2000年在湖北省人民医院眼科进修一年，全国及省眼科学会会员，地区眼科学会委员，如上睑下垂矫正术，斜视矫正术等，对鼻腔泪囊吻合术，抗青光眼手术，白内障囊外小切口人工晶体植入术，白内障超声乳化及人工晶体植入术，眼窝成型下眼袋矫形等多种手术，治疗经验丰富。。</font></p>
+                    <div style="width:200px;height:400px;float:left;" >
+                        <h2><b id="name">才三军</b>&nbsp;</h2>
+                        <p id="zhiwei" style="margin-top:0px">教授</p>
+                        <p id="keshi">大肠外科&nbsp;主任医师</p>
+                        <p id="yiyuan" style="color:#66CDAA">上海市肿瘤医院</p>
+                        <p><b >擅长：</b>  <font id="shanchang" size=1>对角膜屈光手术及青少年近视防控方面有着非常丰富的临场经验，2000年在湖北省人民医院眼科进修一年，全国及省眼科学会会员，地区眼科学会委员，如上睑下垂矫正术，斜视矫正术等，对鼻腔泪囊吻合术，抗青光眼手术，白内障囊外小切口人工晶体植入术，白内障超声乳化及人工晶体植入术，眼窝成型下眼袋矫形等多种手术，治疗经验丰富。。</font></p>
 
-                </div>*@
+                    </div>*@
             </div>
         </div>
     </div>
     <br />
-    
-        <div class="pages" style="float:left">
+
+    <div class="pages" style="float:left">
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
         </div>
-
-
+    </footer>
 </body>
 </html>
+
+
 <script>
+    var lastname = localStorage.getItem("key");
+    function wode() {
+        location.href = "/Doctor/DoctorMyCenter?id=" + lastname;
+    }
+    var first = localStorage.getItem("first");
+    function Index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
     //绑定地区下拉框、
     XLKAddress();
     function XLKAddress() {
@@ -54,7 +117,7 @@
             success: function (h) {
                 $("#Select1").empty();
                 $(h).each(function () {
-                    $("#Select1").append("<option value='" + this.addressId + "'>" + this.addressName +"</option>")
+                    $("#Select1").append("<option value='" + this.addressId + "'>" + this.addressName + "</option>")
                 })
             }
         })
@@ -63,22 +126,21 @@
     ShowDoctor('1');
     function ShowDoctor(id) {
         $.ajax({
-            url: "http://localhost:52083/Doctor/CHIUDoctor?page="+id+"&limit=3",
+            url: "http://localhost:52083/Doctor/CHIUDoctor?page=" + id + "&limit=3",
             type: "get",
-            async: false,
             success: function (h) {
                 $("#div").empty();
                 $(h.data).each(function () {
-                    $("#div").append("<img src='http://localhost:52083" + this.doctorPicture+"' style='width:150px;height:150px;float:left' />"
-      +"                 <div style='width:400px;height:800px;float:left;' >                 "
-                        + "                     <h2><b id='name'>" + this.doctorName+"</b>&nbsp;</h2>                          "
-                        + "                     <p id='zhiwei' style='margin-top:0px'>" + this.doctorEducation+"</p>                  "
-                        + "                     <p id='keshi'>" + this.hospitalName + "      " + this.doctorPosition+"</p>                        "
-                        + "                     <p id='yiyuan' style='color:#66CDAA'>" + this.departmentsname+"</p>         "
-                        + "                     <p><b >擅长：</b>  <font id='shanchang' size=1>" + this.doctorGood+"</font></p>      "
-      +"     </div >");
+                    $("#div").append("<img src='http://localhost:52083" + this.doctorPicture + "' style='width:150px;height:150px;float:left' />"
+                        + "                 <div style='width:400px;height:800px;float:left;' >                 "
+                        + "                     <h2><b id='name'>" + this.doctorName + "</b>&nbsp;</h2>                          "
+                        + "                     <p id='zhiwei' style='margin-top:0px'>" + this.doctorEducation + "</p>                  "
+                        + "                     <p id='keshi'>" + this.hospitalName + "      " + this.doctorPosition + "</p>                        "
+                        + "                     <p id='yiyuan' style='color:#66CDAA'>" + this.departmentsname + "</p>         "
+                        + "                     <p><b >擅长：</b>  <font id='shanchang' size=1>" + this.doctorGood + "</font></p>      "
+                        + "     </div >");
                 })
-                myPages(id,h.count);
+                myPages(id, h.count);
 
             }
         })
@@ -91,7 +153,7 @@
     function Look() {
         var id = $("#Select1").val();
         $.ajax({
-            url: "http://localhost:52083/Doctor/XLKLookDoctor?id="+id,
+            url: "http://localhost:52083/Doctor/XLKLookDoctor?id=" + id,
             type: "get",
             async: false,
             success: function (h) {
@@ -106,6 +168,7 @@
                         + "                     <p><b >擅长：</b>  <font id='shanchang' size=1>" + this.doctorGood + "</font></p>      "
                         + "     </div >");
                 })
+                myPages(id, h.count);
             }
         })
     }

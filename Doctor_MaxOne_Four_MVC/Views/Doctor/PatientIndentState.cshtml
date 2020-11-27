@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PatientIndentState</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align:center">
+    <h1>您的订单</h1>
+    <div id="div" style="background:#ADD8E6">
+
+    </div>
+</body>
+</html>
+<script>
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/IndentState?stateid=" + @ViewBag.STateId + "&usersid=" + @ViewBag.PatientId,
+            type: "get",
+            success: function (h) {
+            $("#div").empty();
+            $(h).each(function () {
+            $("#div").append(""
+            + "         <div><a onclick='look(" + this.reservationId+")'> 订单号：" + this.paymentName+"</a></div>   "
+           
+          +"  <br />                        "
+           
+                +"<hr />                        "
+            + "     <div>就诊医生：" + this.doctorName+"</div>         "
+          
+            +"   <br />                        "
+            + "     <div>就诊医院：" + this.hospitalName+"</div>         "
+            
+            +"   <br />                        "
+            + "     <div>患者姓名：" + this.patientName+"</div>         "
+            
+            +"  <br />"
+            +"");
+            })
+            }
+            })
+            }
+            //查看订单详情
+            function look(id) {
+            location.href = "/Doctor/PatientLookIndent?Usersid="+@ViewBag.PatientId+"&DingDanid="+id;
+
+
+            }
+</script>
+ 

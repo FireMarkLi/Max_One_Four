@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ReservationDepartment</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <div id="div">
+       
+    </div>
+
+</body>
+</html>
+<script>
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/LookPayment",
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    console.log(h);
+                    var a = "";
+                    if (this.paymentState == 1) {
+                        a = "待支付";
+                    }
+                    $("#div").append(""
+                        + "          <div>请支付：" + this.doctorMoney+"</div >        "
+             +"      <hr />                    "
+                        + "      <div>订单号：" + this.paymentName+"</div>               "
+                        + "      <div>订单标题：" + this.paymentTitle+"</div>               "
+             +"      <div>订单详情：</div>               "
+             +"      <br />                    "
+                        + "      <div>" + this.paymentParticulars+"</div>              "
+             + "        <br />                  "
+                        + "      <div>订单状态:" + a+"</div>              "
+                        + "        <br />                  "
+                        + "   <input id='Button1' type='button' value='立即支付' onclick=\"zf('" + this.paymentId + "','" + this.doctorMoney + "')\" style='background:#AFEEEE;width:70px;height:30px'  />"
+                   
+             +"          <hr />                "
+                      +"  ");
+                })
+            }
+        })
+    }
+    function zf(id, money) {
+      
+        $.ajax({
+            url: "/Doctor/OrderCarts2?Id=" + id + "&money=" + money + "&HZid=" + @ViewBag.ReservationDepartmentId,
+            type: "post",
+            success: function (h) {
+                $('body').append(h);
+                Update(id);
+            }
+        })
+    }
+    function Update(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/MoneyPayment",
+            type: "get",
+            success: function (h) {
+            }
+        })
+    }
+</script>

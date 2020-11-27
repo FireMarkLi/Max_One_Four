@@ -9,18 +9,60 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DoctorPublicBenefit</title>
+    <style>
+        body {
+            background-image: url(http://localhost:52083/img/d6.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
 <body>
-    <h1 style="color:green">加入名医公益</h1>
-    <br />
-    <h4 style="background-color:green;color:white">简介</h4>
-    <div>
-        名医主刀每天都会接触到大量需要手术的患者，
-        其中不少患者家境贫寒，难以承担手术费用。
-        据此，名医主刀发起名医公益联盟，通过互联网技术
-        整合多方资源，联合公益组织、医疗专家、企业家、公益明星等，共建一种可持续公益模式
-        让更多的贫困患者有机会得到资助、得到更好的治疗。截至2016年12月底，已有365台公益手术顺利完成
-        名医公益联盟一天一台公益手术的目标圆满达成，但名医公益的脚步却从未停歇。
-    </div>
+    <center>
+        <div style="width:100%">
+            <h1 style="color:green">加入名医公益</h1>
+            <br />
+            <img src="~/img/公司简介.png" style="margin-left:-1200px;width:200px;height:200px" />
+            <div style="width:1250px;height:200px;background-color:lightgray;margin-top:-200px;margin-left:100px">
+                <br />
+                <br />
+                <div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    名医公益联盟是名医主刀倡导发起,并联合公益组织、医生共建的一种可持续公益模式,旨在让更多患者有机会接受更好的治疗。 作为国内最大的移动医疗手术平
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                    台,名医主刀每天都能接触到大量需要手术的患者。在沟通中,我们注意到其中不少患者家境贫寒,难以全部承担平台服务费用。名医主刀虽然是新生企业,但“仁爱”
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                    一直是我们的初心,我们希望通过名医公益联盟,汇聚社会的爱心力量,让更多贫困的患者也能找到名医进行手术。名医公益联盟中,既有饱含仁爱之心的名医,也有有着丰富救助经验的公益组织。通过对资源的整合和优化配置,让患者好看病、看好病。做手术找名医主刀,做手术遇到困难找名医公益联盟。
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <div>
+                    上海创贤网络科技有限公司企业注册资金345万元。目前，集团下设5个全资子公司：青岛壹舒堂医疗有限公司、舟山安舒堂医疗有限公司、上海仁励医疗科技有限公司、上海沐贤医疗科技有限公司、上海健贤网络科技有限公司。目前业务遍及全国24个省，总部坐落于上海，在北京、青岛、南京、安庆、洛阳、晋城等地设办事处，业务范围覆盖全国。
+
+                    自从2014年成立以来，先后完成了三轮融资。2015年5月，得到真格基金创始人徐小平老师认可，获得500万元人民币的天使投资；2015年10月，复星医药领投，高榕资本、真格基金跟投，完成A轮6000万元人民币融资；2016年4月，由约印创投和汉富控股领投、复星医药、高榕资本、真格基金、美国凯瑟琳癌症中心与风和资本等机构跟投，完成 B 轮 1.5 亿元人民币融资。
+
+                    多年务实求进，砥砺前行，上海创贤网络科技有限公司主营业务枝繁叶茂，现已拥有三大业务体系：
+
+                    互联网手术平台，为患者提供国内外专家手术预约服务，最大限度地成就优化医疗资源配置，让每一位患者看好病；
+
+                    紧密型专科医联体，携手北上广各大三甲医院名医专家，将优质的医疗资源，通过名医铸刀的方式，进行传帮带，切实把优质医疗资源下沉至广阔的市、县一级，先后与近千家基层医院进行了战略合作，让每一位医生行好医；
+
+                    上海名医会诊中心和日间手术中心，汇集全球各学科名医大咖，以一站式MDT为特色，以高品质的就医体验为目标，辐射长三角，为华东区大病、疑难病的患者提供优质的就医平台。
+                </div>
+
+            </div>
+            <img src="~/img/公司计划.png" style="width:1690px;height:200px;margin-top:300px;margin-left:-10px" />
+        </div>
+    </center>
 </body>
 </html>
+<script>
+    var first = localStorage.getItem("first");
+    function Index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
+</script>

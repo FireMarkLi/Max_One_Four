@@ -1,0 +1,140 @@
+﻿
+@{
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdSignUpSuccess</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+
+        body {
+            background-image: url(http://localhost:52083/img/1ef5b.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+        #all {
+            width: 380px;
+            margin: 0 auto;
+            height: 280px;
+        }
+        </style>
+</head>
+<body>
+    <div id="all">
+        <center><h2 style="margin-top:60px">修改信息</h2></center>
+        <table cellspacing=10>
+            <tr>
+                <td>外出会诊台数</td>
+                <td>
+                    <input id="hui" type="number" />
+                </td>
+            </tr>
+            <tr>
+                <td>交通距离要求</td>
+                <td>
+                    <input id="tiao" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>方便会诊时间</td>
+                <td>
+                    <input id="time" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>愿意会诊病例</td>
+                <td>
+                    <input id="ok" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>每台会诊费区间</td>
+                <td>
+                    <input id="money" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>常去地区或医院</td>
+                <td>
+                    <input id="go" type="text" />
+                </td>
+            </tr>
+            <tr>
+                <td>对手术地点/条件要求</td>
+                <td><input id="tiaojian" type="text" /></td>
+            </tr>
+            <tr>
+                <td><input id="Button1" type="button" value="修改" onclick="upd()"  style="margin-left:112px" /></td>
+                <td><input id="Hidden1" type="hidden" />
+                    <input id="Hidden2" type="hidden" /></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    //反填
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/FanDoctorProvince?id=" + @ViewBag.Id,
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#hui").val(this.provinceNum);
+                    $("#tiao").val(this.provinceTime);
+                    $("#time").val(this.provinceDatetime);
+                    $("#ok").val(this.provinceCottoms);
+                    $("#money").val(this.provinceMoney);
+                    $("#go").val(this.provinceDistrict);
+                    $("#tiaojian").val(this.provinceRequire);
+                    $("#Hidden1").val(this.provinceId);
+                    $("#Hidden2").val(this.provinceDoctorId);
+                })
+            }
+        })
+    }
+    //修改
+    function upd() {
+        var a = {};
+        a.ProvinceId = parseInt($("#Hidden1").val());
+           a.ProvinceNum=parseInt( $("#hui").val());
+           a.ProvinceTime=      $("#tiao").val() ;
+           a.ProvinceDatetime=  $("#time").val() ;
+           a.ProvinceCottoms=   $("#ok").val();
+           a.ProvinceMoney=     $("#money").val( );
+           a.ProvinceDistrict=  $("#go").val();
+        a.ProvinceRequire = $("#tiaojian").val();
+        a.ProvinceDoctorId =parseInt( $("#Hidden2").val());
+        console.log(a);
+        $.ajax({
+            url: "http://localhost:52083/Doctor/UpdateProvince",
+            type: "post",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(a),
+            dataType: "json",
+            success: function (h) {
+                if (h > 0) {
+                    alert("修改成功");
+                    history.go(-1);
+                }
+                else {
+                    alert("修改失败");
+                }
+            }
+        })
+
+
+
+
+
+
+
+    }
+</script>

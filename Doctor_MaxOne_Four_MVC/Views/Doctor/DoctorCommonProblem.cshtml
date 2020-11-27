@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
 }
 
 <!DOCTYPE html>
@@ -12,9 +12,15 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
-    <h1>名医主刀常见问题即答案</h1>
-    <div id="wen"></div>
-    <div id="daan"></div>
+    <center><h2 style="margin-top:60px">名医主刀常见问题及答案</h2></center>
+
+    <center>
+        <div id="wen" style="margin:0 auto;"></div>
+    </center>
+    <br />
+    <center>
+        <div id="daan" style="margin:0 auto;"></div>
+    </center>
 </body>
 </html>
 <script>
@@ -25,7 +31,7 @@
             type: "get",
             success: function (h) {
                 $(h).each(function () {
-                    $("#wen").append("<a id='" + this.questionAnswerId + "' onclick='daan(" + this.questionAnswerId+")'>" + this.questionAnswerTitle+"</a><br />");
+                    $("#wen").append("<a id='" + this.questionAnswerId + "' onclick='daan(" + this.questionAnswerId + ")'>" + this.questionAnswerTitle + "</a><br />");
                 });
             }
         })
@@ -33,14 +39,14 @@
     //答案
     function daan(id) {
         $.ajax({
-            url: "http://localhost:52083/Doctor/Answer?id="+id,
+            url: "http://localhost:52083/Doctor/Answer?id=" + id,
             type: "get",
             success: function (h) {
                 $(h).each(function () {
                     $("#daan").append("<span >您的问题是：" + this.questionAnswerTitle + "</span><br />");
                     $("#daan").append("<span >答案：" + this.questionAnswerOk + "</span><br />");
                 });
-               
+
             }
         })
     }

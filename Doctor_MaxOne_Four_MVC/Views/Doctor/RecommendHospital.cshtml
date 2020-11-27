@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "RecommendHospital";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RecommendHospital</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <script src="~/layui/layui.js"></script>
+    <style>
+    body { background-image: url('http://localhost:52083/img/5a17.jpeg'); background-repeat: no-repeat; background-size: 100% 100%; background-attachment: fixed; }
+
+        #all {
+            width: 500px;
+            margin: 0 auto;
+            height: 450px;
+            margin-top: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <select id="Select1">
+        </select>
+        <input id="Button1" type="button" value="查询" onclick="Address()" />
+    </div>
+    <br />
+    <div id="div">
+    </div>
+</body>
+</html>
+<script>
+    //绑定下拉框  地区
+    //绑定地区下拉框、
+    XLKAddress();
+    function XLKAddress() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKAddress",
+            type: "get",
+            success: function (h) {
+                $("#Select1").empty();
+                $(h).each(function () {
+                    $("#Select1").append("<option value='" + this.addressId + "'>" + this.addressName + "</option>")
+                })
+            }
+        })
+    }
+    //显示医院的信息
+       SHowHospital();
+    function SHowHospital() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/Recommend",
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "<a value='" + this.hospitalId + "' onclick='HospitalToIntroduce("+this.hospitalId+")'>" + this.hospitalName+"</a>"
+                        +"<br />"
+                        + "" + this.hospitalVip+""
+                        + "<br />"
+                        + "<hr />"
+                        + "<br />"
+                   +"     ");
+                })
+            }
+        })
+    }
+    //跟据地区查询医院
+     //跟据下拉框查询
+    function Address() {
+        var id =parseInt( $("#Select1").val());
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKRegion?id=" + id,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "<a value='" + this.hospitalId + "'  onclick='HospitalToIntroduce(" + this.hospitalId +")'>" + this.hospitalName + "</a>"
+                        + "<br />"
+                        + "" + this.hospitalVip + ""
+                        + "<br />"
+                        + "<hr />"
+                        + "<br />"
+                        + "     ");
+                })
+            }
+        })
+    }
+    //点击进入科室的选择
+    function HospitalToIntroduce(id) {
+        //id医院id   医院id
+        location.href = '/Doctor/DepartmentChoose?id='+id+"&patientid="+@ViewBag.RecommendHospitalId;
+    }
+</script>

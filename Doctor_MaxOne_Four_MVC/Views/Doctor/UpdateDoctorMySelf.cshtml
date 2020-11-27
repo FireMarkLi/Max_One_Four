@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
 }
 
 <!DOCTYPE html>
@@ -143,10 +143,10 @@
             success: function (h) {
                 console.log(h.data);
                 if (h.data!=0) {
-                    $("#img").attr('src', 'http://localhost:52083/' + h.img);
+                    $("#img").attr('src', 'http://localhost:52083' + h.img);
                     $(h.data).each(function () {
                         $("#Name").val(this.doctorName);
-                        $("#XueLi").val(this.doctorEducation); 
+                        $("#XueLi").val(this.doctorEducation);
                         $("#hospital").val(this.doctorHospitalId);
                         $("#department").val(this.doctorDepartmentsId);
                         $("#Zhiwei").val(this.doctorPosition);
@@ -165,7 +165,7 @@
         var a = new FormData();
         a.append("DoctorPicture", $("#File1").get(0).files[0]);
         a.append("DoctorName", $("#Name").val());
-        a.append("DoctorEducation", $("#XueLi").val()); 
+        a.append("DoctorEducation", $("#XueLi").val());
         a.append("DoctorDepartmentsId", $("#department").val());
         a.append("DoctorHospitalId", $("#hospital").val());
         a.append("DoctorPosition", $("#Zhiwei").val());

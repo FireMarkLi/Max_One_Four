@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewData["Title"] = "DepartmentToHostal";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DepartmentToHostal</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <center>
+        <div>
+            <center><img src="~/img/QQ20201125100351.png" style="width:800px" /></center>
+            <select id="Select1">
+            </select>
+            <input id="Button1" type="button" value="查询" onclick="Address()" />
+        </div>
+        <br />
+
+        <br />
+        <div id="div">
+
+        </div><center>
+            <img src="~/img/WKKLWPC$CZEO_9A2{U2Q]}I.png" style="width:412px;height:150px;margin-top:40px" />
+        </center><div>
+
+        </div>
+    </center>
+</body>
+</html>
+<script>
+    //绑定地区下拉框、
+    XLKAddress();
+    function XLKAddress() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKAddress",
+            type: "get",
+            async: true,
+            success: function (h) {
+                $("#Select1").empty();
+                $(h).each(function () {
+                    $("#Select1").append("<option value='" + this.addressId + "'>" + this.addressName + "</option>")
+                })
+            }
+        })
+    }
+    //显示医院
+    SHowHospital();
+    function SHowHospital() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientShowHospital?id=" + @ViewBag.DepartmentToHostalId,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "<a value='" + this.hospitalId + "' onclick='HospitalToIntroduce("+this.hospitalId+")'>" + this.hospitalName+"</a>"
+                        +"<br />"
+                        + "" + this.hospitalVip+""
+                        + "<br />"
+                        + "<hr />"
+                        + "<br />"
+                   +"     ");
+                })
+            }
+        })
+    }
+    //跟据下拉框查询
+    function Address() {
+        var id =parseInt( $("#Select1").val());
+        $.ajax({
+            url: "http://localhost:52083/Doctor/XLKPatientShowHospital?id="+@ViewBag.DepartmentToHostalId+"&xlkid="+id,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "<a value='" + this.hospitalId + "'  onclick='HospitalToIntroduce(" + this.hospitalId +")'>" + this.hospitalName + "</a>"
+                        + "<br />"
+                        + "" + this.hospitalVip + ""
+                        + "<br />"
+                        + "<hr />"
+                        + "<br />"
+                        + "     ");
+                })
+            }
+        })
+    }
+    //点击医院查看介绍进行预约
+    function HospitalToIntroduce(id) {
+        alert(id);
+        location.href = "/Doctor/HospitalToIntroduce?id=" + @ViewBag.IndexPatientId+"&Deparment="+@ViewBag.DepartmentToHostalId+"&Hospital="+id;
+    }
+</script>

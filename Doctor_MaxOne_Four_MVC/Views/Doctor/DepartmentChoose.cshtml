@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "DepartmentChoose";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DepartmentChoose</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <style>
+        body {
+            background-image: url('http://localhost:52083/img/5a17.jpeg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+
+        #div {
+            width: 500px;
+            margin: 0 auto;
+            height: 30px;
+            margin-top: 150px;
+        }
+
+        #div2 {
+            width: 500px;
+            margin: 0 auto;
+            height: 30px;
+            margin-top: 150px;
+        }
+
+        #choose {
+            margin: 0 auto;
+            width: 500px;
+            margin-top: 20px;
+        }
+    </style>
+    <div>
+
+        <div id="div">
+
+        </div>
+        <div id="div2">
+            <input id="Button1" type="button" value="科室选择" onclick="Department()" />
+            <input id="Button1" type="button" value="医院介绍" onclick="HospitalReferral()" />
+        </div>
+        <div id="choose">
+
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    ShowHospitalMessage();
+    function ShowHospitalMessage() {
+      
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DoctorIdHospitalMessage?id="+@ViewBag.HospitalId,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "      <div><h1>" + this.hospitalName +"</h1></div >  "
+                 +"  <br />              "
+                        + "  <div>" + this.hospitalVip+" |综合医院</div>         "
+                        +"");
+                })
+            }
+        })
+    }
+    function HospitalReferral() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/IntroduceHospital?id="+@ViewBag.HospitalId,
+            type: "get",
+            success: function (h) {
+                $("#choose").empty();
+                $(h).each(function () {
+                    $("#choose").append(""
+                        + "      <div><h1>医院简介</h1></div >  "
+                        + "  <br />              "
+                        + "  <div>" + this.hospitalAbstract + " </div>         "
+                        + "");
+                })
+            }
+        })
+    }
+
+    function Department() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientShowDepartment",
+            type: "get",
+            success: function (h) {
+                $("#choose").empty();
+                $(h).each(function () {
+                  $("#choose").append(""
+                      + "           <div>" + this.departmentsname+"</div >      "
+             +"       <br />                  "
+                      + "       <div><a id='look" + this.departmentsId+"'  onclick='Look(" + this.departmentsId+")'>点击查看疾病</a></div>             "
+                      +"<br />"
+                      + "");
+                })
+            }
+        })
+    }
+    function Look(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DepartmentInBing?id="+id,
+            type: "get",
+            success: function (h) {
+                $("#look" + id+"").empty();
+                $(h).each(function () {
+                    console.log(h);
+                    
+                    $("#look" + id + "").append("<a onclick='tiao(" + this.departmentsFather + ")'>" + this.departmentsname +"   </a>&nbsp;");
+                })
+            }
+        })
+    }
+    //点击疾病跳转到预约
+    function tiao(id) {
+        //患者id    医院id     科室疾病id、
+        location.href = "/Doctor/HospitalToOrder?id=" +@ViewBag.PatientId+"&Hospitalid=" +@ViewBag.HospitalId+"&Department="+id;
+    }
+</script>

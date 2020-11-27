@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Questionnaire</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <center><h2 style="margin-top:60px">调查问卷</h2></center>
+    <div id="div" style="margin:0 auto;">
+        <div id="wen"></div>
+        <br />
+    </div>
+    <br />
+    <center><input id="Button1" type="button" value="提交" style="color:dimgray" onclick="ok()" /></center>
+</body>
+</html>
+<script>
+    Show();
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/ExamSayShow",
+            type: "get",
+            async: false ,
+            success: function (h) {
+                $("#wen").empty();
+                $(h).each(function () {
+                    $("#wen").append(""
+                        + "       <span  value='" + this.examId + "'>" + this.examQuestion + "</span>"
+                        +"<br />"
+                        + "<a onclick='Xuan("+this.examId+")' style='width:25px;height:25px'>点击展开选项</a>"
+                        + "<br />"
+                        + "        <div id='da" + this.examId+"' ></div >       "
+                +"    <br />                             "
+                        + "")               
+                })
+            }
+        })
+    }
+    function Xuan(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/ExamOption?id="+id,
+            type: "get",
+            async: false,
+            success: function (h) {
+                $("#da" + id + "").empty();
+                $(h).each(function () {
+                   
+                    $("#da" + this.examId+"").append(""
+                        + "<input class='item' id='Radio1' type='radio' name='a" + this.questionId+"' value='"+this.isTure+"'  />"
+                        + "       <span  value='" + this.optionMenuId + "'>" + this.optionContent + "</span>"
+                        +"<br />"
+                        + "")
+                })
+            }
+        })
+    }
+    function ok() {
+        var num = 0;
+        $(".item").each(function () {
+            if ($(this).prop("checked") == true) { '.0mj'
+                //获取是否是正确的 正确为1  否则为0
+                if ($(this).val()=="true") {
+                    num = num + 1;
+                    console.log(num);
+                }
+            }
+        })
+       
+        location.href = '/Doctor/Register?id='+num;
+    }
+</script>

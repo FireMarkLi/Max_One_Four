@@ -1,0 +1,83 @@
+﻿
+@{
+    Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PatientMySelf</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-image: url(http://localhost:52083/img/d6.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <div style="width:300px">
+            <div id="div">
+
+            </div>
+            </div>
+    </center>
+</body>
+</html>
+<script>
+    //患者id
+    var lastname = localStorage.getItem("key");
+    Show();
+    function Show() {
+        
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientIdToPatientName?id=" + lastname,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append("<h1>您好，" + this.patientName+"</h1>");
+                })
+            }
+
+        })
+    }
+    //常见问题
+    function Why() {
+        location.href = "/Doctor/PatientCommonProblem";
+    }
+    //公益手术
+    function gong() {
+        location.href = '/Doctor/GoodOperation';
+    }
+    //联系客服
+    function lianxi() {
+        alert("客服电话：17600377593");
+        $("#kefu").empty();
+        $("#kefu").append("<p>客服电话：17600377593</p>"
+                   +"<br />"
+                   +"<p>客服QQ：3212328135</p>"
+            +"<p>客服邮箱：3212328135@qq.com</p>"
+        +"");
+    }
+    //关于我们
+    function we() {
+        location.href = "/Doctor/AboutUs";
+    }
+    //全部订单
+    function All() {
+        location.href = '/Doctor/PatientAllIndent?id='+@ViewBag.PatientMyselfId;
+    }
+    //跟据订单状态查看订单
+    function Ding(id) {
+        location.href = "/Doctor/PatientIndentState?id="+@ViewBag.PatientMyselfId+"&State="+id;
+    }
+    function upd() {
+        location.href = "/Doctor/UpdPatientMySelf?id="+@ViewBag.PatientMyselfId;
+    }
+</script>

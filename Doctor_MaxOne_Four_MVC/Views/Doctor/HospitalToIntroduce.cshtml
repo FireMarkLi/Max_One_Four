@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "HospitalToIntroduce";
+    Layout = "~/Views/Shared/DEShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>HospitalToIntroduce</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <center>
+        <h2 style="margin-top:60px">预约科室</h2>
+        <h3>医院介绍</h3>
+        <div id="hospital">
+
+        </div>
+        <br />
+
+        <h3>科室专长</h3>
+        <div id="deparment"></div>
+        <br />
+        <input id="Button1" type="button" value="预约科室" onclick="OrderDeparment()" />
+    </center>
+</body>
+</html>
+<script>
+    //科室专长
+    ShowDeparment();
+    function ShowDeparment() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DeparmentInDisease?id=" + @ViewBag.DeparmentHospitalToIntroduceId,
+            type: "get",
+            success: function (h) {
+                $("#deparment").empty();
+                $(h).each(function () {
+                    $("#deparment").append(""
+                        + "<p>" + this.departmentsname +" , &nbsp;</p>"
+                        +"")
+                })
+            }
+        })
+    }
+    //医院介绍
+    ShowHospital();
+    function ShowHospital() {
+         $.ajax({
+             url: "http://localhost:52083/Doctor/IntroduceHospital?id=" + @ViewBag.HospitalHospitalToIntroduceId,
+            type: "get",
+            success: function (h) {
+                $("#hospital").empty();
+                $(h).each(function () {
+                    $("#hospital").append(""
+                        + "<p>" + this.hospitalAbstract +" , &nbsp;</p>"
+                        +"")
+                })
+            }
+        })
+    }
+    //预约科室按钮点击事件
+    function OrderDeparment() {
+        location.href = "/Doctor/ReservationList?id=" + @ViewBag.PatientHospitalToIntroduceId+"&Deparment=" +@ViewBag.DeparmentHospitalToIntroduceId+"&Hospital=" +@ViewBag.HospitalHospitalToIntroduceId;
+    }
+</script>

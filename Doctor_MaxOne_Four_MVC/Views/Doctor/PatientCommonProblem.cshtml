@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PatientCommonProblem</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-image: url(http://localhost:52083/img/d6.jpeg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <center>
+
+        <h1 style="color:blue">名医主刀常见问题即答案</h1>
+        <div id="wen"></div>
+        <div id="daan"></div>
+    </center>
+</body>
+</html>
+<script>
+    Wen();
+    function Wen() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/AllWhy",
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#wen").append("<a id='" + this.questionAnswerId + "' onclick='daan(" + this.questionAnswerId+")'>" + this.questionAnswerTitle+"</a><br />");
+                });
+            }
+        })
+    }
+    //答案
+    function daan(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/Answer?id="+id,
+            type: "get",
+            success: function (h) {
+                $(h).each(function () {
+                    $("#daan").append("<span >您的问题是：" + this.questionAnswerTitle + "</span><br />");
+                    $("#daan").append("<span >答案：" + this.questionAnswerOk + "</span><br />");
+                });
+
+            }
+        })
+    }
+</script>

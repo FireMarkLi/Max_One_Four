@@ -2,26 +2,147 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>KnowDoctorPatient</title>
-</head>
-<body>
-    <div>
-        <p><h6>名医主刀</h6>i互动撒会雕塑hi大赛化的俗话</p>
-    </div>
-    <hr />
-    <div>
-        <p><h6>总部</h6>i互动撒会雕塑hi大赛化的俗话</p>
-    </div>
-    <hr  />
-    <div>
-        <p><h6 style="color:aquamarine">汇聚国内外顶级名医资源</h6>i互动撒会雕塑hi大赛化的俗话</p>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
 
+   
+
+
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+        body {
+            background-image: url(/img/s1.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 70%;
+            background-attachment: fixed;
+            
+        }
+       
+       
+    </style>
+
+</head>
+<body style="height:1800px"id="abc">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+   
+        
+    <div style="text-align:center;width:900px;margin-left:500px;">
+        <center><h2 style="color:black">名医主刀</h2></center>
+
+        <div >
+            <p>
+                <h4 style="color:aquamarine">名医主刀</h4>
+                <b>
+                    国内最大的移动医疗手术预约平台，旨在为有手术需求的患者提供专业、
+                    高效、安全的手术医疗预约服务。帮助广大有手术需求的患者，在第一时间预约
+                    全国知名专家,安排入院手术。
+                </b>
+            </p>
+        </div>
+        <hr />
+        <div>
+            <p>
+                <h4 style="color:aquamarine">总部</h4>
+                <b>
+                    坐落于上海,现设北京、杭州、天津、广州、南京、成都等分部,业务范围覆盖全
+                    国平台汇聚了国内外顶级名医资源和闲置床位资源,并利用互联网技术实现医患
+                    精准匹配,医疗资源优化配置,帮助患者解决“好看病,看好病”的切实
+                    需求
+                </b>
+                。
+            </p>
+        </div>
+        <hr />
+        <div>
+            <p>
+                <h4 style="color:aquamarine">汇聚国内外顶级名医资源</h4>
+                <b>
+                    名医主刀不仅签约了两万余名三甲医院副主任级别及以上的医生,还与工程院
+                    院士级别的顶尖专家团队有合作。签约医生涵盖不同的科室,能让更多患者通
+                    过这一平台精准对接到擅长相关疾病的专家,从而节省了在不同医院门诊排队
+                    的时间,并减少患者乱投医而产生的额外费用。
+                </b>
+            </p>
+
+        </div>
     </div>
+        
+   
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
 </body>
 </html>
+<script>
+    var first = localStorage.getItem("first");
+    function Index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
+    var lastname = localStorage.getItem("key");
+    function wode() {
+        location.href = "/Doctor/DoctorMyCenter?id=" + lastname;
+    }
+</script>

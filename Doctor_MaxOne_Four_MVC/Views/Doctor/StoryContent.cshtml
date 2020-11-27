@@ -2,40 +2,125 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>StoryContent</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+
+
+
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 50px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+
 </head>
-<body>
-    <div id="div">
-        <input id="Hidden1" type="hidden" value="@ViewBag.StoryContentid"/>
-    </div>
+<body style="height:1800px" id="abc">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="wode()"><h4>个人中心</h4></a>
+                            <input id="Hidden1" type="hidden" value="0" />
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <center>
+        <div id="div">
+            <input id="Hidden1" type="hidden" value="@ViewBag.StoryContentid" />
+        </div>
+    </center>
+
+
+
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
 </body>
 </html>
 <script>
+    var first = localStorage.getItem("first");
+    function Index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
+    var lastname = localStorage.getItem("key");
+    function wode() {
+        location.href = "/Doctor/DoctorMyCenter?id=" + lastname;
+    }
     Show();
     function Show() {
+        alert(1);
         $.ajax({
-            url: "http://localhost:52083/Doctor/StoryContent?id="+$("#Hidden1").val(),
+            url: "http://localhost:52083/Doctor/StoryContent?id=" + @ViewBag.StoryContentid,
             type: "get",
-            async: false,
             success: function (h) {
+                console.log(h);
                 $("#div").empty();
                 $(h).each(function () {
                     $("#div").append(""
-              +"          <h1>"+this.storyTitle+"</h1 >           "
-              +"      <br />                          "
-                        + "      <img src='http://localhost:52083" + this.storyImg +"' style='width:300px;height:400px;' />                        "
-              +"      <br />                          "
-              +"      <div>                           "
-              +"          <p>"+this.storyContent+"</p>                        "
-              +"        </div>                        "
-              +"")
+                        + "          <h1>" + this.storyTitle + "</h1 >           "
+                        + "      <br />                          "
+                        + "      <img src='http://localhost:52083" + this.storyImg + "' style='width:300px;height:400px;' />                        "
+                        + "      <br />                          "
+                        + "      <div>                           "
+                        + "          <p>" + this.storyContent + "</p>                        "
+                        + "        </div>                        "
+                        + "")
                 })
             }
         })
