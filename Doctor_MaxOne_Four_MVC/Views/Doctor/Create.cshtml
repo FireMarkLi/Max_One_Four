@@ -302,7 +302,14 @@
             contentType: false,
             processData: false,
             success: function (h) {
-                location.href = 'window.history.go(-1)';
+                if (h > 0) {
+                    alert('添加成功');
+                    location.href = 'window.history.go(-1)';
+                }
+                else {
+                    alert("添加失败");
+                }
+               
             }
         })
     }

@@ -4,41 +4,31 @@
     Layout = "~/Views/Shared/DEShow.cshtml";
 }
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <script src="~/Scripts/jquery-3.3.1.js"></script>
 
 <style>
-    #max2 {
-        width: 1200px;
-        height: 500px;
-        background-color: gainsboro;
-        margin-left: 10px;
-        margin-top: 10px;
-    }
 
-    .div {
-        width: 230px;
-        height: 300px;
-    }
 
     .rs {
         background-color: white;
-        width: 230px;
-        height: 70px;
+        width: 1200px;
+        height: 800px;
         margin-top: 10px;
     }
 </style>
 
-<div id="max2">
+<div>
     <h1 style="margin-left: 450px;"><span>PILOTHOSPITAL</span></h1>
 
     <div v-for="item in list" :key="item.departmentsId" style="margin-left: 60px; float: left;">
         <div class="rs">
 
-            <p>
-                <div id="div"></div>
-            </p>
+           
+                <div id="div">
+
+                </div>
+            
         </div>
     </div>
 </div>
@@ -56,17 +46,28 @@
                 $("#div").empty();
                 $(h).each(function () {
                     var a = "";
+                    var b = "";
                     if (this.departmentsId % 3 == 0) {
                         a = "<br /> ";
                     }
+                    if (this.departmentsId==1) {
+                        b = "http://localhost:52083/img/k1.png"
+                    }
+                    if (this.departmentsId == 2) {
+                        b = "http://localhost:52083/img/k2.png"
+                    }
+                    if (this.departmentsId == 3) {
+                        b = "http://localhost:52083/img/k3.png"
+                    }
+                    if (this.departmentsId == 4) {
+                        b = "http://localhost:52083/img/k4.png"
+                    }
+                    if (this.departmentsId == 5) {
+                        b = "http://localhost:52083/img/k5.png"
+                    }
                     $("#div").append(""
-                        + "<a value='" + this.departmentsId + "' onclick='Department(" + this.departmentsId + ")'>" + this.departmentsname + "</a>"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "<img src='" + b + "' style='width:200px;height:200px;margin-left:85px;' />"
+                        + "<a value='" + this.departmentsId + "' onclick='Department(" + this.departmentsId + ")' style='margin-top:85px;margin-left:20px'>" + this.departmentsname + " </a>"
                         + "" + a + ""
                         + "");
                 })

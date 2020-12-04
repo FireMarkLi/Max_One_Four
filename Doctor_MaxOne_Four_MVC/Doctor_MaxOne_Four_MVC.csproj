@@ -14,6 +14,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.ie8polyfill.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.ie8polyfill.min.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.min.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.widgets.helper.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\amazeui.widgets.helper.min.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\app.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\handlebars.min.js" />
+    <None Include="wwwroot\AmazeUI-2.4.2\assets\js\jquery.min.js" />
     <None Include="wwwroot\back\fonts\dashboard.svg" />
     <None Include="wwwroot\back\icons-reference\fonts\dashboard.svg" />
     <None Include="wwwroot\back\img\brand\brand-1.svg" />

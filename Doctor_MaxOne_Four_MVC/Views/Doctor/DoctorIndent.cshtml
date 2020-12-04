@@ -26,10 +26,10 @@
             <br />
             <br />
             <h1 style="margin-left:120px">你好，<span id="doctor"></span>医生</h1><br />
-            <input id="Button1" style="background-color:red;color:white;margin-left:60px" type="button" value="全部" onclick="All()" />&nbsp;&nbsp;&nbsp;
+            @*<input id="Button1" style="background-color:red;color:white;margin-left:60px" type="button" value="全部" onclick="All()" />&nbsp;&nbsp;&nbsp;
             <input id="Button1" style="background-color:gold;color:white" type="button" value="待支付" onclick="One(1)" />&nbsp;&nbsp;&nbsp;
             <input id="Button1" style="background-color:blue;color:white" type="button" value="安排中" onclick="One(2)" />&nbsp;&nbsp;&nbsp;
-            <input id="Button1" style="background-color:greenyellow;color:white" type="button" value="已支付" onclick="One(3)" />&nbsp;&nbsp;&nbsp;
+            <input id="Button1" style="background-color:greenyellow;color:white" type="button" value="已支付" onclick="One(3)" />&nbsp;&nbsp;&nbsp;*@
             <div id="div">
 
             </div>
@@ -83,7 +83,10 @@
                         + "            <span>就诊患者:</span><span>" + this.patientName+"</span>&nbsp;&nbsp;&nbsp;&nbsp;                                    "
             +"        <br />                                                                                                 "
                         + "            <span>预约单号：</span><span>" + this.paymentName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;"
-                    +"<br />");
+                        + "<br />"
+                        + "            <span>疾病描述：</span><span>" + this.reservationDescribe + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />"
+                        +"<hr />"
+                        + "");
              })
             }
         })
@@ -116,7 +119,10 @@
             +"        <br />                                                                                                 "
                         + "            <span>就诊患者:</span><span>" + this.patientName+"</span>&nbsp;&nbsp;&nbsp;&nbsp;                                    "
             +"        <br />                                                                                                 "
-                        + "            <span>预约单号：</span><span>" + this.paymentName +"</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />");
+                        + "            <span>预约单号：</span><span>" + this.paymentName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />"
+                        + "        <br />                                                                                                 "
+                        + "            <span>疾病描述：</span><span>" + this.reservationDescribe + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />"
+                    +"");
              })
             }
         })

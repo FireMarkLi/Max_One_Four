@@ -100,9 +100,15 @@
             async: false,
             contentType: false,
             processData: false,
-            success: function () {
-                alert("预约成功");
-                location.href = "/Doctor/ReservationDepartment?id="+@ViewBag.HaveDoctorReservationId;
+            success: function (h) {
+                if (h > 0) {
+                    alert("预约成功");
+                    location.href = "/Doctor/ReservationDepartment?id=" +@ViewBag.HaveDoctorReservationId;
+                }
+                else {
+                    alert("预约失败");
+                }
+
             }
         })
     }

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "NoPayment";
+    Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PatientAllIndent</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align: center;">
+    <h1>待支付</h1>
+    <div id="div">
+
+    </div>
+</body>
+</html>
+<script>
+    var lastname = localStorage.getItem("key");
+    Show();
+
+    //状态    患者
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/IndentState?stateid=" + 1 + "&usersid=" + lastname,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "         <div><a onclick='look(" + this.reservationId + ")'> 订单号：" + this.paymentName + "</a></div >   "
+                        + "     <br />                        "
+
+                        + "     <div>就诊医生：" + this.doctorName + "</div>         "
+                        + "     <br />                        "
+                        + "     <div>就诊医院：" + this.hospitalName + "</div>         "
+                        + "     <br />                        "
+                        + "     <div>患者姓名：" + this.patientName + "</div>         "
+                        + "     <br />"
+                        + "   <input id='Button1' type='button' value='立即支付' onclick=\"zf('" + this.paymentId + "','" + this.doctorMoney + "')\" style='background:#AFEEEE;width:70px;height:30px'  />"
+                        + "     <hr />                        "
+                        + "");
+                })
+            }
+        })
+    }
+    //立即支付
+      function zf(id, money) {
+
+        $.ajax({
+            url: "/Doctor/OrderCarts2?Id=" + id + "&money=" + money + "&HZid=" + lastname,
+            type: "post",
+            success: function (h) {
+                $('body').append(h);
+                Update(id);
+            }
+        })
+    }
+    function Update(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/PatientZF?id="+id,
+            type: "get",
+            success: function (h) {
+            }
+        })
+    }
+    //查看订单详情
+    function look(id) {
+        /**/
+        location.href = "/Doctor/PatientLookIndent?Usersid=" +lastname+"&DingDanid=" + id;
+    /**/
+
+
+}
+</script>
+

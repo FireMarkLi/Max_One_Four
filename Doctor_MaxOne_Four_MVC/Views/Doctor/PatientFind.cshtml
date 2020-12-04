@@ -57,16 +57,16 @@
                         <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href=""><h4>预约</h4></a>
+                        <a class="nav-link text-dark" href="/Doctor/Appointment"><h4>预约</h4></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="/Doctor/PatientFind"><h4>新闻</h4></a>
                     </li>
                     <li class="nav-item">
-                        <a onclick="Myself()" class="nav-link text-dark" ><h4>个人中心</h4></a>
+                        <a onclick="wode()" class="nav-link text-dark" ><h4>个人中心</h4></a>
                     </li>
                     <li class="nav-item">
-                        <a onclick="wode()" class="nav-link text-dark" ><h4>完善信息</h4></a>
+                        <a onclick="wan()" class="nav-link text-dark" ><h4>完善信息</h4></a>
                     </li>
 
                 </ul>
@@ -100,12 +100,16 @@
 
     var user = localStorage.getItem("usersid");
     function Index() {
-        location.href = '/Doctor/Index?id=' + user;
+        location.href = '/Doctor/PatientIndex?id=' + user;
     }
     //患者·id
     var lastname = localStorage.getItem("key");
     function wode() {
         location.href = '/Doctor/PatientMySelf?id=' + lastname;
+    }
+    //完善个人信息
+    function wan() {
+        location.href = "/Doctor/PatientMeStlf?id=" + lastname;
     }
     Show();
     function Show() {

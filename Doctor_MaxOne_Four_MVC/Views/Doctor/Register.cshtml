@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <center><h1 style="margin-top:40px;font-size:48px">名医主刀注册界面</h1></center>
+    <center><h1 style="margin-top:40px;font-size:48px">名医主刀患者注册界面</h1></center>
     <table style="margin:0 auto;height:680px;width:800px;background:rgba(255,255,255,.6);border-radius:5px">
         <tr>
             <td><span style="font-size:24px">账号</span></td>
@@ -30,15 +30,15 @@
             <td><span style="font-size:24px">密码</span></td>
             <td><input id="pwd" type="password" style="border: 0; height: 32px; border-radius: 5px; min-width: 300px " /></td>
         </tr>
-        <tr>
-            <td><span style="font-size:24px">您的身份</span></td>
-            <td>
-                <select id="Status" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
-                    <option value="1">患者</option>
-                    <option value="2">医生</option>
-                </select>
-            </td>
-        </tr>
+        @*<tr>
+                <td><span style="font-size:24px">您的身份</span></td>
+                <td>
+                    <select id="Status" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
+                        <option value="1">患者</option>
+                        <option value="2">医生</option>
+                    </select>
+                </td>
+            </tr>*@
         <tr>
             <td><span style="font-size:24px">所处地区</span></td>
             <td>
@@ -46,13 +46,12 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <td><span style="font-size:24px">若你是医生请点击调查问卷进行答题</span></td>
-            <td>
-                <input id="Button1" type="button" value="调查问卷" onclick="diao()" style=" border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
-                <span id="num">@ViewBag.ZhuCeNumQ</span>
-            </td>
-        </tr>
+        @*<tr>
+                <td><span style="font-size:24px">若你想注册医生请点击此处注册</span></td>
+                <td>
+                    <input id="Button1" type="button" value="注册医生" onclick="zhuche()" style=" border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+                </td>
+            </tr>*@
         <tr>
             <td><span style="font-size:24px">手机号</span></td>
             <td><input id="Text1" type="text" style="border:0;height:35px;border-radius:5px;min-width:150px" /><input id="btn" type="button" value="获取验证码" onclick="settimes()" style="margin-left:26px;border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" /></td>
@@ -65,7 +64,12 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><center><input id="Button1" type="button" value="注册" onclick="zhuce()" style="border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" /></center></td>
+            <td colspan="2">
+                <center>
+                    <input id="Button1" type="button" value="注册" onclick="zhuce()" style="border: 0; height: 28px; border-radius: 5px; min-width: 82px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+                    <input id="Button1" type="button" value="返回登陆" onclick="deng()" style="border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+                </center>
+            </td>
         </tr>
     </table>
 </body>
@@ -83,18 +87,16 @@
             }
         })
     }
-    function diao() {
-        location.href = '/Doctor/Questionnaire';
-    }
+
     function zhuce() {
         if ($("#Text2").val() == $("#ss").val()) {
             alert("验证通过");
             var data = {};
             data.UsersName = $("#name").val();
             data.UsersPwd = $("#pwd").val();
-            data.UsersState = parseInt($("#Status").val());
+            data.UsersState = 1;
             data.UsersAdress = parseInt($("#City").val());
-            data.UsersExam = parseInt($("#num").text());
+            data.UsersExam = 0;
             console.log(data);
             $.ajax({
                 url: "http://localhost:52083/Doctor/Login",
@@ -158,5 +160,8 @@
             clearInterval(countdown)
         }
         count--;
+    }
+    function deng() {
+        location.href = '/Doctor/Login';
     }
 </script>

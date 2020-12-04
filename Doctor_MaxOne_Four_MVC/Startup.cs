@@ -45,8 +45,8 @@ namespace Doctor_MaxOne_Four_MVC
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Doctor",
+                    pattern: "{controller=Doctor}/{action=Login}");
             });
         }
     }

@@ -9,15 +9,94 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>DoctorStory</title>
+    <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/site.css" />
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/site.js" asp-append-version="true"></script>
+    <style>
+        .navbar-nav {
+            text-align: right;
+            margin-left: 200px
+        }
+
+            .navbar-nav li {
+                display: inline;
+                margin-left: 40px;
+            }
+
+        .luo {
+            width: 1110px;
+            height: 400px;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="" style="width:230px;height:80px" />
+
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/Appointment"><h4>预约</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Doctor/PatientFind"><h4>新闻</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="wode()" class="nav-link text-dark"><h4>个人中心</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="wan()" class="nav-link text-dark"><h4>完善信息</h4></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div id="div">
-        
+
     </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+        </div>
+    </footer>
 </body>
 </html>
 <script>
+    //用户id 患者的
+
+    var user = localStorage.getItem("usersid");
+    function Index() {
+        location.href = '/Doctor/PatientIndex?id=' + user;
+    }
+    //患者·id
+    var lastname = localStorage.getItem("key");
+    function wode() {
+        location.href = '/Doctor/PatientMySelf?id=' + lastname;
+    }
+    //完善个人信息
+    function wan() {
+        location.href = "/Doctor/PatientMeStlf?id=" + lastname;
+    }
     Show();
      function Show() {
         $.ajax({

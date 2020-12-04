@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "InArrangement";
+    Layout = "~/Views/Shared/GShow.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InArrangement</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body style="text-align: center;">
+    <h1>安排中</h1>
+    <div id="div">
+
+    </div>
+</body>
+</html>
+<script>
+    var lastname = localStorage.getItem("key");
+    Show();
+
+    //状态    患者
+    function Show() {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/IndentState?stateid=" + 2 + "&usersid=" + lastname,
+            type: "get",
+            success: function (h) {
+                $("#div").empty();
+                $(h).each(function () {
+                    $("#div").append(""
+                        + "         <div><a onclick='look(" + this.reservationId + ")'> 订单号：" + this.paymentName + "</a></div >   "
+                        + "     <br />                        "
+                       
+                        + "     <div>就诊医生：" + this.doctorName + "</div>         "
+                        + "     <br />                        "
+                        + "     <div>就诊医院：" + this.hospitalName + "</div>         "
+                        + "     <br />                        "
+                        + "     <div>患者姓名：" + this.patientName + "</div>         "
+                        + "     <br />"
+                        + "     <hr />                        "
+                        + "");
+                })
+            }
+        })
+    }
+    //查看订单详情
+    function look(id) {
+        /**/
+        location.href = "/Doctor/PatientLookIndent?Usersid=" +lastname+"&DingDanid=" + id;
+    /**/
+
+
+}
+</script>
+

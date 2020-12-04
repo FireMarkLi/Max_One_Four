@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewData["Title"] = "DoctorHavePaid";
+    Layout = "~/Views/Shared/DoctorMyself.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoctorIndent</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <style>
+        div {
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body>
+    <div style="width:100%;height:770px">
+        <img src="~/img/蓝色雪花.png" style="width:150px;height:770px;padding-top:-50px" />
+        <div id="dd" style="margin-left:500px;margin-top:-795px; width:400px;height:770px">
+            <br />
+            <br />
+            <br />
+            <h1 style="margin-left:120px">你好，<span id="doctor"></span>医生</h1><br />
+            @*<input id="Button1" style="background-color:red;color:white;margin-left:60px" type="button" value="全部" onclick="All()" />&nbsp;&nbsp;&nbsp;
+                <input id="Button1" style="background-color:gold;color:white" type="button" value="待支付" onclick="One(1)" />&nbsp;&nbsp;&nbsp;
+                <input id="Button1" style="background-color:blue;color:white" type="button" value="安排中" onclick="One(2)" />&nbsp;&nbsp;&nbsp;
+                <input id="Button1" style="background-color:greenyellow;color:white" type="button" value="已支付" onclick="One(3)" />&nbsp;&nbsp;&nbsp;*@
+            <div id="div">
+
+            </div>
+            
+        </div>
+
+
+    </div>
+</body>
+</html>
+<script>
+    var lastname = localStorage.getItem("key");
+    DoctorName();
+    function DoctorName() {
+        $.ajax({
+            /**/
+            url: "http://localhost:52083/Doctor/LookDoctorMyXinxi?id=" +lastname,
+    /**/
+    type: "get",
+    success: function (h) {
+        $(h).each(function () {
+            $("#doctor").append(this.doctorName);
+        })
+    }
+})
+}
+One();
+function One() {
+var a = "";
+$.ajax({
+    url: "http://localhost:52083/Doctor/ShowAllPatientTwo?id=" + lastname + "&state=" + 3,
+    type: "get",
+    success: function (h) {
+        $("#div").empty();
+       
+        $(h).each(function () {
+            console.log(h);
+            $("#div").append(""
+                + "<input id='Button1' type='button' value='安排' onclick='que(" + this.paymentId +")' style='background:#AFEEEE;width:70px;height:30px' />"
+                +"<br >"
+                +" <span>类型:</span>" + this.paymentTitle + "<span></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>已支付</span>"
+                + "            <br />                                                                                            "
+                + "            <span>就诊医生:</span><span>" + this.doctorName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;                                    "
+                + "        <br />                                                                                                 "
+                + "            <span>就诊医院:</span><span>" + this.hospitalName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;                                    "
+                + "        <br />                                                                                                 "
+                + "            <span>就诊患者:</span><span>" + this.patientName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;                                    "
+                + "        <br />                                                                                                 "
+                + "            <span>预约单号：</span><span>" + this.paymentName + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />"
+            + "        <br />                                                                                                 "
+                + "            <span>疾病描述：</span><span>" + this.reservationDescribe + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<br />"
+                + "<hr />"
+            +"");
+        })
+    }
+})
+    }
+    function que(id) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DOctorOKANP?id="+id,
+            type: "get",
+            success: function (h) {
+                if (h>0) {
+                    alert("安排成功");
+                    window.location.reload()  //刷新页面
+                }
+            }
+        })
+    }
+</script>
+

@@ -179,7 +179,14 @@
             contentType: false,
             processData: false,
             success: function (h) {
-                location.href = '/Doctor/DoctorMyCenter?id=@ViewBag.AddDoctorId';
+                if (h > 0) {
+                    alert("添加成功");
+                    location.href = '/Doctor/DoctorMyCenter?id=@ViewBag.AddDoctorId';
+                }
+                else {
+                    alert("添加失败");
+                }
+
             }
         })
     }

@@ -1,206 +1,296 @@
 ﻿<!DOCTYPE html>
 <html>
+<style>
+    li {
+        list-style-type: none;
+    }
+
+
+
+    #menu {
+        width: 100%;
+        margin: 40px auto 0px;
+        height: 45px;
+    }
+
+        #menu li {
+            float: left;
+            width: 92px;
+            line-height: 39px;
+            margin-left: 30px;
+            text-align: center;
+            position: relative;
+            border: none;
+        }
+
+            #menu li a {
+                font-size: 16px;
+                color: black;
+                display: block;
+                outline: 0;
+                text-decoration: none;
+            }
+
+            #menu li:hover a {
+                color: #ff0000;
+                /*导航栏文字颜色 */
+            }
+
+            #menu li:hover .dropdown_1column {
+                left: 0px;
+                top: 38px;
+            }
+
+    .dropdown_1column {
+        /* 下拉菜单边框颜色*/
+        margin: 0px auto;
+        float: left;
+        position: absolute;
+        left: -999em;
+        text-align: left;
+        border: 1px solid #066591;
+        border-top: none;
+        background: #F4F4F4;
+        width: 140px;
+    }
+
+    #menu li:hover div a {
+        /* 下拉菜单文字颜色*/
+        font-size: 12px;
+        color: #444;
+    }
+
+        #menu li:hover div a:hover {
+            color: #21910e;
+        }
+
+    /*下拉带单鼠标停留颜色*/
+
+    #menu li ul {
+        list-style: none;
+        padding: 10px 5px;
+        margin: 0;
+    }
+
+        #menu li ul li {
+            font-size: 12px;
+            line-height: 26px;
+            position: relative;
+            padding: 0;
+            margin: 0;
+            float: none;
+            text-align: left;
+            width: 130px;
+        }
+
+            #menu li ul li:hover {
+                background: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+</style>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="all,follow">
-    <link href="~/back/css/custom.css" rel="stylesheet" />
-    <link href="~/back/css/fontastic.css" rel="stylesheet" />
-    <link href="~/back/css/grasp_mobile_progress_circle-1.0.0.min.css" rel="stylesheet" />
-    <link href="~/back/css/style.blue.css" rel="stylesheet" />
-    <link href="~/back/css/style.default.css" rel="stylesheet" />
-    <link href="~/back/css/style.green.css" rel="stylesheet" />，
-    <link href="~/back/css/style.pink.css" rel="stylesheet" />
-    <link href="~/back/css/style.red.css" rel="stylesheet" />
-    <link href="~/back/css/style.sea.css" rel="stylesheet" />
-    <link href="~/back/css/style.violet.css" rel="stylesheet" />
-    <link href="~/back/icons-reference/styles.css" rel="stylesheet" />
-    <link href="~/back/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/back/vendor/bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
-    <link href="~/back/vendor/bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />
-    <link href="~/back/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/back/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+    <title>框架</title>
+
+    <link href="~/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+    <link href="~/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+
+    <link href="~/css/personal.css" rel="stylesheet" type="text/css">
+
+    <script src="~/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="~/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
+
 </head>
+
 <body>
-    <!-- Side Navbar -->
-    <nav class="side-navbar">
-        <div class="side-navbar-wrapper">
-            <!-- Sidebar Header    -->
-            <div class="sidenav-header d-flex align-items-center justify-content-center">
-                <!-- User Info-->
-                <div class="sidenav-header-inner text-center">
-                    <h2 class="h5">名医主刀</h2>
-                </div>
-                <!-- Small Brand information, appears on minimized sidebar-->
-                <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>B</strong><strong class="text-primary">D</strong></a></div>
-            </div>
-            <!-- Sidebar Navigation Menus-->
-            <div class="main-menu">
-                <h5 class="sidenav-heading">Main</h5>
-                <ul id="side-main-menu" class="side-menu list-unstyled">
-                    <li><a href="Index"> <i class="icon-home"></i>首页                             </a></li>
-                    <li>
-                        <a onclick="Mycenter()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>个人中心</a>
+    <!--头 -->
+    <header>
+        <article>
+            <div class="mt-logo">
 
-                    </li>
-                    <li>
-                        <a onclick="Indent()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>全部订单</a>
-                        <ul id="purchase" class="collapse list-unstyled ">
-                            <li><a href="#">待支付</a></li>
-                            <li><a href="#">已支付</a></li>
-                            <li><a href="#">安排中</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a onclick="UpdateMySelf()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>修改个人信息</a>
+                @*悬浮搜索框*@
 
-                    </li>
-                    <li>
-                        <a onclick="CommonProblem()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>常见问题</a>
+                <div class="nav white">
+                    <div class="logoBig">
+                        <li>
+                            <img src="~/img/logo.png" />
+                        </li>
+                    </div>
 
-                    </li>
-
-                    <li>
-                        <a onclick="MyMoney()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>我的账户</a>
-
-                    </li>
-                    <li>
-                        <a onclick="Create()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>签约</a>
-
-                    </li>
-                    <li>
-                        <a onclick="Lian()" href="#" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>联系客服</a>
-
-                    </li>
-                    <li>
-                        <a onclick="LookProtocol()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>查看协议</a>
-
-                    </li>
-                    <li>
-                        <a onclick="Logins()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>登陆</a>
-
-                    </li>
-                    <li>
-                        <a onclick="Registers()" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>注册</a>
-
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
-    <div class="page">
-        <!-- navbar-->
-        <header class="header">
-            <nav class="navbar">
-                <div class="container-fluid">
-                    <div class="navbar-holder d-flex align-items-center justify-content-between">
-
-                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-
-                            <li class="nav-item dropdown">
-
-
-                            </li>
-                            <!-- Log out-->
-                            <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline-block">Logout</span><i class="fa fa-sign-out"></i></a></li>
+                    <div id="menu" style="margin-left: auto; ">
+                        <ul>
+                            <li> <a onclick="index()"><span style="font-size:18px">首页</span></a></li>
+                            <li><a href="/Doctor/Find"><span style="font-size:18px">新闻</span></a></li>
+                            <li><a href="/Doctor/Create"><span style="font-size:18px">创建</span></a></li>
+                            <li><a href="/Doctor/LookDoctor"><span style="font-size:18px">签约</span></a></li>
+                            <li><a onclick="Mycenter()"><span style="font-size:18px">个人中心</span></a></li>
                         </ul>
                     </div>
                 </div>
-            </nav>
-        </header>
+            </div>
+
+        </article>
+    </header>
 
 
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
+    <div class="center">
+        <div class="col-main">
+            <div class="main-wrap">
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人中心</strong></div>
+                </div>
+                <hr />
+                <div class="container">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+                <div style="width: 850px; height: 700px;">
+
+                </div>
+            </div>
+            <!--底部-->
+            <div class="footer">
+
+                <div class="footer-bd">
+                    <p style="margin-left: 40%">
+                        &copy; 2020 - 名医主刀 - <a asp-area="" asp-controller="Home" asp-action="Privacy">大实训一 1803A开发四组</a>
+                    </p>
+                </div>
+            </div>
         </div>
 
+        <aside class="menu">
+            <ul style="height: 772px;">
+                <li class="person active">
+                    <a onclick="Mycenter()"><i class="am-icon-user"></i>个人中心</a>
+                </li>
+                <li class="person">
+                    <p><i class="am-icon-balance-scale"></i>个人信息</p>
+                    <ul>
+                        <li><a onclick="UpdateMySelf()">修改个人信息</a></li>
+
+                    </ul>
+                </li>
+                <li class="person">
+                    <p><i class="am-icon-balance-scale"></i>账户</p>
+                    <ul>
+                        <li><a onclick="MyMoney()">我的账户</a></li>
+                        <li> <a onclick=" Logins()">登录</a></li>
+                        <li> <a onclick="Registers() ">注册</a></li>
+                        <li> <a onclick="Create()">签约</a></li>
+                        <li> <a onclick="LookProtocol()">查看协议</a></li>
+                    </ul>
+                </li>
+                <li class="person">
+                    <p onclick="Indent()"><i class="am-icon-newspaper-o"></i>订单</p>
+                    <ul>
+                        <li> <a href="/Doctor/DoctorNoPayment">待支付</a></li>
+                        <li> <a href="/Doctor/DoctorHavePaid">已支付</a></li>
+                        <li> <a href="/Doctor/DoctorInArrangement">安排中</a></li>
+                    </ul>
+                </li>
+                <li class="person">
+                    <p><i class="am-icon-balance-scale"></i>帮助</p>
+                    <ul>
+                        <li><a onclick="CommonProblem()">常见问题</a></li>
+                        <li> <a onclick="AboutWo()">关于我们</a></li>
+                        <li> <a onclick="Lian()">联系客服</a></li>
+                        <li> <a onclick="Benefit()">公益手术</a></li>
+                    </ul>
+                </li>
 
 
+            </ul>
+
+        </aside>
     </div>
-    <!-- JavaScript files-->
-    <script src="~/back/vendor/popper.js/umd/popper.min.js"></script>
-    <script src="~/back/vendor/popper.js/popper.min.js"></script>
-    <script src="~/back/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/back/js/grasp_mobile_progress_circle-1.0.0.min.js"></script>
-    <script src="~/back/vendor/jquery.cookie/jquery.cookie.js"></script>
-    <script src="~/back/vendor/chart.js/Chart.min.js"></script>
-    <script src="~/back/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="~/back/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="~/back/vendor/chart.js/Chart.min.js"></script>
-    <!-- Main File-->
-    <script src="~/back/js/front.js"></script>
+
 </body>
+
 </html>
 <script>
     var lastname = localStorage.getItem("key");
+    var first = localStorage.getItem("first");
     IndexToMyCenterId();
     function IndexToMyCenterId() {
         $.ajax({
-            url: "http://localhost:52083/Doctor/DoctorXinxiInName?id=" +lastname,
-    type: "get",
-    success: function (h) {
-        console.log(h);
-        $(h).each(function () {
-            $("#span").append(this.doctorName);
+            url: "http://localhost:52083/Doctor/DoctorXinxiInName?id=" + lastname,
+            type: "get",
+            success: function (h) {
+                console.log(h);
+                $(h).each(function () {
+                    $("#span").append(this.doctorName);
+                })
+
+            }
         })
-
     }
-})
-}
-//联系客服
-function Lian() {
-alert("请拨打客服电话：1760077593");
-}
-//创建按钮
-function Create() {
+    //关于我们
+    function AboutWo() {
+        location.href = '/Doctor/DoctorAboutUs';
+    }
+    //公益手术
+    function Benefit() {
+        location.href = '/Doctor/DoctorGoodOperation';
+    }
+    //联系客服
+    function Lian() {
+        alert("请拨打客服电话：1760077593");
+    }
+    //签约
+    function Create() {
 
-    location.href = '/Doctor/DoctorSignedExpert?id=' + lastname;
-}
-//全部订单
-function Indent() {
+        location.href = '/Doctor/DoctorSignedExpert?id=' + lastname;
+    }
+    //全部订单
+    function Indent() {
 
-location.href = '/Doctor/DoctorIndent?id=' + lastname;
-}
-//修改个人中心
-function UpdateMySelf() {
+        location.href = '/Doctor/DoctorIndent?id=' + lastname;
+    }
+    //修改个人中心
+    function UpdateMySelf() {
 
-location.href = '/Doctor/UpdateDoctorMySelf?id=' + lastname;
-}
-//常见问题
-function CommonProblem() {
+        location.href = '/Doctor/UpdateDoctorMySelf?id=' + lastname;
+    }
+    //常见问题
+    function CommonProblem() {
 
-    location.href = '/Doctor/DoctorCommonProblem';
-}
-//个人中心
-function Mycenter() {
+        location.href = '/Doctor/DoctorCommonProblem';
+    }
+    //个人中心
+    function Mycenter() {
 
-    location.href = '/Doctor/DoctorMyCenter?id=' + lastname;
-}
-//我的账户
-function MyMoney() {
+        location.href = '/Doctor/DoctorMyCenter?id=' + lastname;
+    }
+    //我的账户
+    function MyMoney() {
 
-location.href = '/Doctor/DoctorMyMoney?id=' + lastname;
-}
-//查看协议
-function LookProtocol() {
+        location.href = '/Doctor/DoctorMyMoney?id=' + lastname;
+    }
+    //查看协议
+    function LookProtocol() {
 
-location.href = '/Doctor/DoctorLookProtocol';
-}
-//登录
-function Logins() {
+        location.href = '/Doctor/DoctorLookProtocol';
+    }
+    //登录
+    function Logins() {
 
-location.href = '/Doctor/Login';
-}
-//注册
-function Registers() {
+        location.href = '/Doctor/Login';
+    }
+    //注册
+    function Registers() {
 
-location.href = '/Doctor/Register';
-}
+        location.href = '/Doctor/Register';
+    }
+    //首页
+    function index() {
+        location.href = '/Doctor/Index?id=' + first;
+    }
 
 </script>

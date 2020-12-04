@@ -29,8 +29,14 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
             return View();
         }
 
-        //注册页面
-        public IActionResult Register(int id)
+        //注册患者页面
+        public IActionResult Register()
+        {
+
+            return View();
+        }
+        //注册医生页面
+        public IActionResult RegisterDoctor(int id)
         {
             //注册时候的调查问卷答对的数量
             ViewBag.ZhuCeNumQ = id;
@@ -67,6 +73,16 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
         }
         //医生端了解名医主刀  
         public IActionResult KnowDoctorPatient()
+        {
+            return View();
+        }
+        //医生端关于我们
+        public IActionResult DoctorAboutUs()
+        {
+            return View();
+        }
+        //医生端公益手术
+        public IActionResult DoctorGoodOperation()
         {
             return View();
         }
@@ -127,11 +143,26 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
             
             return View();
         }
-        //医生端  订单
+        //医生端  全部订单
         public IActionResult DoctorIndent(int id)
         {
             //id是医生的id
             ViewBag.DoctorIndentId = id;
+            return View();
+        }
+        //医生端待支付
+        public IActionResult DoctorNoPayment()
+        {
+            return View();
+        }
+        //医生端已支付
+        public IActionResult DoctorHavePaid()
+        {
+            return View();
+        }
+        //医生端安排中
+        public IActionResult DoctorInArrangement()
+        {
             return View();
         }
         //dAY1124
@@ -295,6 +326,21 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
             ViewBag.PatientAllIndentId = id;
             return View();
         }
+        //患者端待支付
+        public IActionResult NoPayment()
+        {
+            return View();
+        }
+        //患者端已支付
+        public IActionResult HavePaid()
+        {
+            return View();
+        }
+        //患者端安排中
+        public IActionResult InArrangement()
+        {
+            return View();
+        }
         //患者端查看订单详情
         public IActionResult PatientLookIndent(int Usersid,int DingDanid)
         {
@@ -397,7 +443,7 @@ namespace Doctor_MaxOne_Four_MVC.Controllers
                                                                   // string mobile = HttpContext.Request.Query["mobile"];
             Random rad = new Random();
             int mobile_code = rad.Next(1000, 10000);
-            string content = "[物联网大实训一第四组提醒您]您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";
+            string content = "您的验证码是：" + mobile_code + " 。请不要把验证码泄露给其他人。";
 
             //Session["mobile"] = mobile;
             //Session["mobile_code"] = mobile_code;

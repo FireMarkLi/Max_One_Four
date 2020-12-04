@@ -1,118 +1,26 @@
 ﻿
 @{
-
+    ViewData["Title"] = "DoctorMyCenter";
     Layout = "~/Views/Shared/DoctorMyself.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>DoctorMyCenter</title>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
-        .navbar-nav {
-            text-align: right;
-            margin-left: 200px
-        }
-
-            .navbar-nav li {
-                display: inline;
-                margin-left: 50px;
-            }
-
-        body {
-            background-image: url(/img/5a17.jpeg);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            background-attachment: fixed;
-        }
-
-        #doctor {
-            width: 450px;
-            margin: 0 auto;
-            height: 340px;
-        }
-
-        .container {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="/img/WKKLWPC$CZEO_9A2{U2Q]}I.png" alt="" style="width:230px;height:80px" />
-
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" onclick="Index()"><h4>首页</h4></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Doctor/Find"><h4>新闻</h4></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Doctor/Create"><h4>创建</h4></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Doctor/LookDoctor"><h4>签约</h4></a>
-                        </li>
-                      
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div id="doctor">
-        <center><h2 style="margin-top:60px">你好，  <span id="span3"></span></h2></center>
-
-       
-        
-    </div>
-
-</body>
-</html>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<center><h2 style="margin-top:60px">你好，  <span id="span6"></span>医生</h2></center>
+    
 <script>
-    var lastname = localStorage.getItem("key");
-    var first = localStorage.getItem("first");
-    function Index() {
-        location.href = '/Doctor/Index?id=' + first;
-    }
     IndexToMyCenterId();
     function IndexToMyCenterId() {
         $.ajax({
-            url: "http://localhost:52083/Doctor/DoctorXinxiInName?id="+lastname,
+            url: "http://localhost:52083/Doctor/DoctorXinxiInName?id="+@ViewBag.IndexToMyCenterId,
             type: "get",
             success: function (h) {
-                $("#span3").empty();
+                $("#span6").empty();
                 console.log(h);
                 $(h).each(function () {
-                    $("#span3").append(this.doctorName);
+                    $("#span6").append(this.doctorName);
                 })
 
             }
         })
     }
-    //联系客服
-    function Lian() {
-        $("#div").empty();
-        alert("请拨打客服电话：1760077593");
-        $("#div").append("请拨打客服电话：1760077593");
-    }
 </script>
-

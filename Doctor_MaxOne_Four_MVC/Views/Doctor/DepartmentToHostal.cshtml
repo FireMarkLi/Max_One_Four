@@ -28,8 +28,8 @@
         </div><center>
             <img src="~/img/WKKLWPC$CZEO_9A2{U2Q]}I.png" style="width:412px;height:150px;margin-top:40px" />
         </center><div>
-
-        </div>
+    <input id="Hidden1" type="hidden" />
+</div>
     </center>
 </body>
 </html>
@@ -49,11 +49,29 @@
             }
         })
     }
-    //显示医院
-    SHowHospital();
-    function SHowHospital() {
-        $.ajax({
+    //获取医院名称
+    S();
+    function S() {
+         $.ajax({
             url: "http://localhost:52083/Doctor/PatientShowHospital?id=" + @ViewBag.DepartmentToHostalId,
+            type: "get",
+             success: function (h) {
+                 console.log(h);
+                 $(h).each(function () {
+                     $("#Hidden1").val(this.hospitalName);
+                     SHowHospital(this.hospitalName);
+                 })
+                    
+                 
+               
+            }
+        })
+    }
+    //显示医院
+   
+    function SHowHospital(name) {
+        $.ajax({
+            url: "http://localhost:52083/Doctor/DeparmentsH?name=" + name,
             type: "get",
             success: function (h) {
                 $("#div").empty();

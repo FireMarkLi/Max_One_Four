@@ -29,20 +29,26 @@
     <div style="margin:0 auto;width:700px;height:600px;border-radius:10px;background:rgba(255,255,255,.6)">
         <div style="margin: 20px 150px;padding: 26px 0"><input type="text" id="txtName" placeholder="账号" class="input" style="border:0;height:33px;border-radius:5px;min-width:300px;padding-left:10px" /></div>
         <div style="margin: 20px 150px"><input type="password" id="txtPwd" placeholder="密码" class="input" style="border: 0; height: 33px; border-radius: 5px; min-width: 300px; padding-left: 10px " /></div>
-        <div style="margin: 20px 150px">
-            <span style="font-size:24px">身份</span><select id="select1" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
-                <option value="1">患者</option>
-                <option value="2">医生</option>
-                <option value="3">管理员</option>
-            </select>
-        </div>
+        @*<div style="margin: 20px 150px">
+                <span style="font-size:24px">身份</span><select id="select1" style="margin-left:3px;margin-top:4px;height:28px;font-size:18px">
+                    <option value="1">患者</option>
+                    <option value="2">医生</option>
+                    <option value="3">管理员</option>
+                </select>
+            </div>*@
         <div style="margin: 20px 150px"><span style="font-size:24px">验证码</span> <canvas id="canvas" width="120" height="40" style="background-color:white;margin-top:15px"></canvas></div>
-        <div style="margin: 20px 150px"><span style="font-size:24px">请输入验证码 <input type="text" id="text" style="border:0;height:35px;border-radius:5px;min-width:150px;padding-left:10px"></span></div>
-        <div style="margin: 20px 150px"> <span style="font-size:24px">没有账号？请点击<input id="Button2" type="button" value="注册" onclick="Zhu()" style="margin-left: 3px; border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" /></span></div>
+        <div style="margin: 20px 150px"><span style="font-size:24px">请输入验证码 <input type="text" id="text" style="border:0;height:35px;border-radius:5px;min-width:150px;padding-left:10px;margin-top:10px"></span></div>
         <div style="margin: 20px 150px">
-            <input id="Button1" type="button" value="登录" style="margin-left:196px;border: 0; height: 28px; border-radius: 5px; min-width: 44px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+            <input id="Button1" type="button" value="登录" style="margin-left:180px;border: 0; height: 28px; border-radius: 5px; min-width: 100px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
         </div>
-        <div style="margin: 20px 150px"><center><p style="color:#FA6F03;">登录遇到问题，请联系管理员</p></center></div>
+        <div style="margin: 20px 150px">
+            <span>
+                没有账号？请点击<input id="Button2" type="button" value="注册患者" onclick="Zhu()" style="margin-left: 3px; border: 0; height: 28px; border-radius: 5px; min-width: 100px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+                <input id="Button3" type="button" value="注册医生" onclick="zhuche()" style="margin-left: 3px; border: 0; height: 28px; border-radius: 5px; min-width: 100px; padding-left: 10px; background-color: deepskyblue;font-size:18px" />
+            </span>
+        </div>
+
+        <div style="margin: 20px 150px"><center><p style="color:#FA6F03;"><span onclick="lian()">登录遇到问题，点击此处</span></p></center></div>
         @*<p style="margin-top:16px;margin-left:150px">
 
             </p>*@
@@ -114,8 +120,8 @@
         document.getElementById("Button1").onclick = function () {
             var text = input.value //获取输入框的值
             if (text === num) {
-                var select = $("#select1").val();
-                var data = { UsersName: $("#txtName").val(), UsersPwd: $("#txtPwd").val(), UsersState: parseInt(select) };
+                //var select = $("#select1").val();
+                var data = { UsersName: $("#txtName").val(), UsersPwd: $("#txtPwd").val()/*, UsersState: parseInt(select)*/ };
                 $.ajax({
                     url: "http://localhost:52083/Doctor/Register",
                     type: "post",
@@ -154,8 +160,13 @@
         }
 
     }
-
+    function lian() {
+        alert("请拨打客服电话：1760077593");
+    }
     function Zhu() {
-        location.href = '/Doctor/Register?id=0';
+        location.href = '/Doctor/Register';
+    }
+    function zhuche() {
+        location.href = '/Doctor/RegisterDoctor';
     }
 </script>
